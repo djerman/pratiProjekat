@@ -1,0 +1,1478 @@
+<?xml version="1.0" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+     <changeSet id="init-tables-20250407143911" author="goran">
+
+        <createTable tableName="aa_sistem">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vlasnik" type="VARCHAR(45)"/>
+            <column name="adresaVlasnika" type="VARCHAR(45)"/>
+            <column name="sajtVlasnika" type="VARCHAR(45)"/>
+            <column name="telVlasnika" type="VARCHAR(45)"/>
+            <column name="emailVlasnika" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="api" type="VARCHAR(100)"/>
+            <column name="serverMape" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adresaServeraMape" type="VARCHAR(45)"/>
+            <column name="nominatimAdresa" type="VARCHAR(45)"/>
+            <column name="emailServer" type="VARCHAR(45)"/>
+            <column name="emailServerPort" type="INT"/>
+            <column name="emailKorisnik" type="VARCHAR(45)"/>
+            <column name="emailLozinka" type="VARCHAR(45)"/>
+        </createTable>
+
+        <createTable tableName="ab_sistemPretplatnici">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sistem" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivanDo" type="DATE"/>
+            <column name="apiKey" type="VARCHAR(100)"/>
+            <column name="tip" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nadzorId" type="BIGINT"/>
+            <column name="gMapa" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="ac_organizacije">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="VARCHAR(45)"/>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="ad_sistemAlarmi">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="VARCHAR(100)"/>
+            <column name="sifra" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adresa" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pregled" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prikaz" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="alarmiranje" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="ae_sistemGoriva">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="af_sistemOperateri">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="ah_sistemUredjajiProizvodjac">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="adresa" type="VARCHAR(100)"/>
+            <column name="opis" type="CLOB"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="ai_sistemUredjajiModeli">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="proizvodjacId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="CLOB"/>
+            <column name="sim2" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="obd" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="obracun" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="ba_korisnici">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT"/>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="ime" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prezime" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vozac" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lozinka" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="telefon" type="VARCHAR(50)"/>
+            <column name="mobilni" type="VARCHAR(50)"/>
+            <column name="ibutton" type="VARCHAR(45)"/>
+            <column name="korisnik" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="admin" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sistem" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivanDo" type="DATE"/>
+            <column name="slikaUrl" type="VARCHAR(255)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="bb_objekti">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="oznaka" type="VARCHAR(20)"/>
+            <column name="tip" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vremeStajanja" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prekoracenjeBrzine" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voziloId" type="BIGINT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="bc_uredjaji">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="modelId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serijskiBr" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kod" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objekatId" type="BIGINT"/>
+            <column name="zauzet" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="VARCHAR(100)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="bd_sim">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT"/>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="operaterId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uredjajId" type="BIGINT"/>
+            <column name="iccid" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="broj" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zauzet" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="CLOB"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="be_grupe">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="naziv" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="CLOB"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="bf_zone">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="naziv" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lon" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lat" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="precnik" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="VARCHAR(45)"/>
+            <column name="aktivan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="bg_partneri">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pib" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mb" type="VARCHAR(45)"/>
+            <column name="adresa" type="VARCHAR(45)"/>
+            <column name="telefon" type="VARCHAR(45)"/>
+            <column name="mobilni" type="VARCHAR(45)"/>
+            <column name="eposta" type="VARCHAR(45)"/>
+            <column name="kontaktOsoba" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="bh_voziloOprema">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="naziv" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="ca_grupeKorisnici">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gkpretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gkorganizacijaId" type="BIGINT"/>
+            <column name="gkgrupaId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gkkorisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="cb_grupeObjekti">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gopretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="goorganizacijaId" type="BIGINT"/>
+            <column name="gogrupaId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="goobjekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="kreirano" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="cc_alarmiKorisnik">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="alarmId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="INT"/>
+            <column name="obavestenje" type="INT"/>
+            <column name="aktivan" type="INT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="cd_objektiAlarmi">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="objekatId" type="BIGINT"/>
+            <column name="ogranicenjeBrzine" type="INT"/>
+            <column name="vremeNeaktivnost" type="INT"/>
+            <column name="vremeMaliServis" type="INT"/>
+            <column name="kmMaliServis" type="INT"/>
+            <column name="vremeVelikiServis" type="INT"/>
+            <column name="kmVelikiServis" type="INT"/>
+            <column name="aktivan" type="INT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT"/>
+        </createTable>
+
+        <createTable tableName="ce_javljanja">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valid" type="INT"/>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datumVreme" type="DATETIME"/>
+            <column name="lon" type="FLOAT"/>
+            <column name="lat" type="FLOAT"/>
+            <column name="pravac" type="FLOAT"/>
+            <column name="visina" type="FLOAT"/>
+            <column name="brzina" type="INT"/>
+            <column name="kontakt" type="INT"/>
+            <column name="alarmId" type="BIGINT"/>
+            <column name="virtualOdo" type="FLOAT"/>
+            <column name="eventData" type="VARCHAR(255)"/>
+            <column name="zona" type="BIGINT"/>
+            <column name="ibutton" type="VARCHAR(100)"/>
+            <column name="korisnikId" type="BIGINT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="ce_javljanjaMirovanja">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valid" type="INT"/>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datumVreme" type="DATETIME"/>
+            <column name="lon" type="FLOAT"/>
+            <column name="lat" type="FLOAT"/>
+            <column name="pravac" type="FLOAT"/>
+            <column name="visina" type="FLOAT"/>
+            <column name="brzina" type="INT"/>
+            <column name="kontakt" type="INT"/>
+            <column name="alarmId" type="BIGINT"/>
+            <column name="virtualOdo" type="FLOAT"/>
+            <column name="eventData" type="VARCHAR(255)"/>
+            <column name="zona" type="BIGINT"/>
+            <column name="ibutton" type="VARCHAR(100)"/>
+            <column name="korisnikId" type="BIGINT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="cf_javljanjaPoslednja">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="valid" type="INT"/>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datumVreme" type="DATETIME"/>
+            <column name="lon" type="FLOAT"/>
+            <column name="lat" type="FLOAT"/>
+            <column name="pravac" type="FLOAT"/>
+            <column name="visina" type="FLOAT"/>
+            <column name="brzina" type="INT"/>
+            <column name="alarmId" type="BIGINT"/>
+            <column name="virtualOdo" type="FLOAT"/>
+            <column name="eventData" type="VARCHAR(255)"/>
+            <column name="zona" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT"/>
+            <column name="kontakt" type="INT"/>
+            <column name="ibutton" type="VARCHAR(100)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="cg_obd">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datumVreme" type="DATETIME"/>
+            <column name="rpm" type="INT"/>
+            <column name="temperatura" type="INT"/>
+            <column name="opterecenje" type="FLOAT"/>
+            <column name="gas" type="FLOAT"/>
+            <column name="nivoGoriva" type="FLOAT"/>
+            <column name="akumulator" type="FLOAT"/>
+            <column name="tripKm" type="FLOAT"/>
+            <column name="tripGorivo" type="FLOAT"/>
+            <column name="ukupnoVreme" type="FLOAT"/>
+            <column name="ukupnoKm" type="INT"/>
+            <column name="ukupnoGorivo" type="FLOAT"/>
+            <column name="prosecnaPotrosnja" type="FLOAT"/>
+            <column name="greske" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="cg_obdPoslednji">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datumVreme" type="DATETIME"/>
+            <column name="rpm" type="INT"/>
+            <column name="temperatura" type="INT"/>
+            <column name="opterecenje" type="FLOAT"/>
+            <column name="gas" type="FLOAT"/>
+            <column name="nivoGoriva" type="FLOAT"/>
+            <column name="akumulator" type="FLOAT"/>
+            <column name="tripKm" type="FLOAT"/>
+            <column name="tripGorivo" type="FLOAT"/>
+            <column name="ukupnoVreme" type="FLOAT"/>
+            <column name="ukupnoKm" type="INT"/>
+            <column name="ukupnoGorivo" type="FLOAT"/>
+            <column name="prosecnaPotrosnja" type="FLOAT"/>
+            <column name="greske" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="ch_zoneObjekti">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zopretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="zoorganizacijaId" type="BIGINT"/>
+            <column name="zonaId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ulaz" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izlaz" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="aktivan" type="INT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT"/>
+        </createTable>
+
+        <createTable tableName="ci_vozaci">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="jmbg" type="VARCHAR(45)"/>
+            <column name="zaposlenOd" type="DATE"/>
+            <column name="zaposlenDo" type="DATE"/>
+            <column name="prebivaliste" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cj_vozilo">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registracija" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="marka" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="model" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tip" type="VARCHAR(45)"/>
+            <column name="godina" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gorivo" type="BIGINT"/>
+            <column name="rezervoar" type="INT"/>
+            <column name="potrosnja" type="FLOAT"/>
+            <column name="teretno" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brojSaobracajne" type="VARCHAR(45)"/>
+            <column name="saobracajnaId" type="BIGINT"/>
+            <column name="serijskiBroj" type="VARCHAR(45)"/>
+            <column name="datumRegistracije" type="DATE"/>
+            <column name="maliServisKm" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maliServisMeseci" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="velikiServisKm" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="velikiServisMeseci" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datumPoslednjeRegistracije" type="DATE"/>
+            <column name="maliPoslednjiDatum" type="DATE"/>
+            <column name="maliPoslednjiGPSkm" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maliPoslednjiOBDkm" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="velikiPoslednjiDatum" type="DATE"/>
+            <column name="velikiPoslednjiGPSkm" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="velikiPoslednjiOBDkm" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izbrisan" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="ck_voziloPrimoPredaja">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="broj" type="VARCHAR(45)"/>
+            <column name="datum" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voziloId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vozacPredaja" type="BIGINT"/>
+            <column name="administrator" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vozacPrijem" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="komentar" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="cl_voziloNalog">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="brojNaloga" type="VARCHAR(45)"/>
+            <column name="voziloId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="odMesta" type="VARCHAR(45)"/>
+            <column name="doMesta" type="VARCHAR(45)"/>
+            <column name="medjuTacke" type="VARCHAR(45)"/>
+            <column name="ocekivaniPolazak" type="DATETIME"/>
+            <column name="ocekivaniDolazak" type="DATETIME"/>
+            <column name="vozacId" type="BIGINT"/>
+            <column name="komentar" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="da_voziloOpremaPrijem">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="primoPredajaId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opremaId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kolicina" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="db_vozaciDozvole">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brojDozvole" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izdao" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vaziDo" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AM" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="A1" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="A2" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="A" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="B1" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="B" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BE" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C1" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C1E" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="C" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CE" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="D1" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="D1E" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="D" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DE" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="F" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="M" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="dc_vozaciLekarsko">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izdao" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izdato" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vaziDo" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="dd_vozaciLicence">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="broj" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izdao" type="VARCHAR(45)"/>
+            <column name="izdato" type="DATE"/>
+            <column name="vaziDo" type="DATE"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="de_vozaciLicna">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="broj" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izdao" type="VARCHAR(45)"/>
+            <column name="izdato" type="DATE"/>
+            <column name="vaziDo" type="DATE"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="df_vozaciPasosi">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brojPasosa" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izdato" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vaziDo" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="dg_voziloSaobracajna">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="voziloId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brojSaobracajne" type="VARCHAR(45)"/>
+            <column name="datumIzdavanja" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izdao" type="VARCHAR(45)"/>
+            <column name="homologacija" type="VARCHAR(45)"/>
+            <column name="sasija" type="VARCHAR(45)"/>
+            <column name="brojMotora" type="VARCHAR(45)"/>
+            <column name="snagaMotora" type="FLOAT"/>
+            <column name="zapreminaMotora" type="INT"/>
+            <column name="zapreminaRezervoara" type="INT"/>
+            <column name="zapreminaRezervoaraAdBlue" type="INT"/>
+            <column name="boja" type="VARCHAR(45)"/>
+            <column name="masa" type="VARCHAR(45)"/>
+            <column name="ukupnaMasa" type="VARCHAR(45)"/>
+            <column name="kategorija" type="VARCHAR(45)"/>
+            <column name="nosivost" type="VARCHAR(45)"/>
+            <column name="mestaSedenja" type="INT"/>
+            <column name="saobracajna2Id" type="BIGINT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="dh_voziloSaobracajna2">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="saobracajnaId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vlasnik" type="VARCHAR(45)"/>
+            <column name="adresaVlasnika" type="VARCHAR(45)"/>
+            <column name="jmbgVlasnika" type="VARCHAR(45)"/>
+            <column name="korisnik" type="VARCHAR(45)"/>
+            <column name="adresaKorisnika" type="VARCHAR(45)"/>
+            <column name="dimenzijeGuma" type="VARCHAR(45)"/>
+            <column name="pritisakGume" type="VARCHAR(45)"/>
+            <column name="dimenzijeTovara" type="VARCHAR(45)"/>
+            <column name="odnosSnagaMasa" type="VARCHAR(45)"/>
+            <column name="mestaStajanje" type="VARCHAR(45)"/>
+            <column name="kupljenoDoniranoOd" type="VARCHAR(45)"/>
+            <column name="nabavljenoPoRacunuSert" type="VARCHAR(45)"/>
+            <column name="dobavljacDonator" type="VARCHAR(45)"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="di_predjeniPut">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datum" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="virtualOdo" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ukupnoKm" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ukupnoGorivo" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prosPotGps" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prosPot" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="dj_racuni">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="partnerId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datum" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brojRacuna" type="VARCHAR(45)"/>
+            <column name="opis" type="VARCHAR(45)"/>
+            <column name="korisnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="dj_troskovi">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="racunId" type="BIGINT"/>
+            <column name="datumVreme" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="partnerId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brojRacuna" type="VARCHAR(45)"/>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipServisa" type="INT"/>
+            <column name="tipGorivaId" type="BIGINT"/>
+            <column name="kolicina" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cena" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pdvProcenat" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pdvIznos" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ukupno" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="VARCHAR(45)"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="dk_projekti">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="naziv" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sifra" type="VARCHAR(45)"/>
+            <column name="partnerId" type="BIGINT"/>
+            <column name="opis" type="VARCHAR(45)"/>
+            <column name="izbrisan" type="INT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="dl_sifre">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="partnerId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sifra" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opis" type="VARCHAR(45)"/>
+            <column name="izbrisan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="dlj_racuniRaspodela">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="partnerId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="racunId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="iznos" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="dm_evidencijaVoznji">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT"/>
+            <column name="pretplatnikId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="voziloNalog" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="voziloId" type="BIGINT"/>
+            <column name="vozac" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="registracijaVozila" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="relacija" type="VARCHAR(45)"/>
+            <column name="datumVremePolaska" type="DATETIME"/>
+            <column name="datumVremeDolaska" type="DATETIME"/>
+            <column name="pocetnaKm" type="FLOAT"/>
+            <column name="zavrsnaKm" type="FLOAT"/>
+            <column name="razlikaKm" type="FLOAT"/>
+            <column name="potrosnja" type="FLOAT"/>
+            <column name="gorivoCena" type="FLOAT"/>
+            <column name="prevozCena" type="FLOAT"/>
+            <column name="putniTroskovi" type="FLOAT"/>
+            <column name="brojPutnogNaloga" type="VARCHAR(45)"/>
+            <column name="dana" type="INT"/>
+            <column name="sati" type="INT"/>
+            <column name="troskoviGoriva" type="FLOAT"/>
+            <column name="prevozUkupno" type="FLOAT"/>
+            <column name="prevozPutniTrosak" type="FLOAT"/>
+            <column name="preuzetoIz" type="VARCHAR(45)"/>
+            <column name="vrstaRobe" type="VARCHAR(45)"/>
+            <column name="kolicina" type="INT"/>
+            <column name="magacin" type="VARCHAR(45)"/>
+            <column name="otpremnica" type="VARCHAR(45)"/>
+            <column name="sifra" type="VARCHAR(45)"/>
+            <column name="sifraPrograma" type="VARCHAR(45)"/>
+            <column name="program" type="VARCHAR(45)"/>
+            <column name="utrosenoLitara" type="FLOAT"/>
+            <column name="zakljucan" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="uradio" type="BIGINT"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="dx_objektiPoslednje">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="objekatId" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="maliServis" type="DATE"/>
+            <column name="maliKm" type="INT"/>
+            <column name="velikiServis" type="DATE"/>
+            <column name="velikiKm" type="INT"/>
+            <column name="registracija" type="DATE"/>
+            <column name="kreirano" type="DATETIME"/>
+            <column name="izmenjeno" type="DATETIME"/>
+        </createTable>
+
+        <createTable tableName="dy_sistemSesije">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pretplatnikId" type="BIGINT"/>
+            <column name="organizacijaId" type="BIGINT"/>
+            <column name="korisnikId" type="BIGINT"/>
+            <column name="datumPocetak" type="DATETIME"/>
+            <column name="datumKraj" type="DATETIME"/>
+            <column name="ipAdresa" type="VARCHAR(50)"/>
+            <column name="izbrisan" type="INT"/>
+        </createTable>
+
+        <createTable tableName="dz_sistemObracuni">
+            <column name="id" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="datum" type="DATE"/>
+            <column name="objekatId" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="odoGPS" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gpsKm" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brzinaProsecna" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="brzinaMaks" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="obdKm" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="odoObd" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="potrosnjaUkupna" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="potrosnjaProsek" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rpmProsek" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rpmMaks" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opterecenjeProsek" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="opterecenjeMaks" type="FLOAT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tempProsek" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tempMaks" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="kreirano" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="izmenjeno" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
