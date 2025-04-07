@@ -7,11 +7,10 @@
     <artifactId>pratiProjekat</artifactId>
     <version>1.0.0</version>
   </parent>
-  <groupId>rs.prati</groupId>
   <artifactId>service</artifactId>
-  <version>1.0.0</version>
   <name>service</name>
   <url>http://maven.apache.org</url>
+  <packaging>jar</packaging>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -19,8 +18,13 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>rs.prati</groupId>
+      <artifactId>core</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+
   </dependencies>
 </project>

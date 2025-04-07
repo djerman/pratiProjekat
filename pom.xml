@@ -7,6 +7,7 @@
   <modules>
     <module>core</module>
     <module>service</module>
+    <module>rest</module>
   </modules>
   <properties>
     <java.version>17</java.version>
