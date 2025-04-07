@@ -1,4 +1,4 @@
-package org.service;
+package rs.prati.service;
 
 /**
  * Hello world!
