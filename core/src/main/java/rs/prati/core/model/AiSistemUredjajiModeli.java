@@ -31,7 +31,7 @@ public class AiSistemUredjajiModeli {
     private String opis;
 
     @NotNull
-    @Column(name = "sim2")
+    @Column(name = "sim2", columnDefinition = "TINYINT(1)")
     private Boolean sim2;
 
     @NotNull

@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name = "cc_alarmikorisnik")
+@Table(name = "cc_alarmiKorisnik")
 public class CcAlarmiKorisnik {
 
     @Id

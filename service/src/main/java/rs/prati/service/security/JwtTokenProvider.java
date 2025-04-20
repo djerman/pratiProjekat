@@ -1,8 +1,10 @@
-package rs.prati.rest.security;
+package rs.prati.service.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import rs.prati.core.model.BaKorisnici;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,6 +30,24 @@ public class JwtTokenProvider {
     @PostConstruct
     public void init() {
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    }
+
+ // Генерише токен на основу email адресе (без Authentication)
+    public String generateTokenFromEmail(String email) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+
+        return Jwts.builder()
+                .setSubject(email)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    // Преоптерећена метода која прима BaKorisnici објекат
+    public String generateToken(BaKorisnici korisnik) {
+        return generateTokenFromEmail(korisnik.getEmail());
     }
 
     // Генерише JWT токен на основу аутентификованог корисника

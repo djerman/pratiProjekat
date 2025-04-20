@@ -29,7 +29,7 @@ public class AaSistem {
     @Column(name = "api")
     private String api;
 
-    @Column(name = "serverMape")
+    @Column(name = "serverMape", columnDefinition = "TINYINT(1)")
     private Boolean serverMape;
 
     @Column(name = "adresaServeraMape")

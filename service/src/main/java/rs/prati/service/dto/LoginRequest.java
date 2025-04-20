@@ -1,4 +1,4 @@
-package rs.prati.rest.controller;
+package rs.prati.service.dto;
 
 /**
  * DTO класа која представља податке које клијент шаље приликом пријаве.

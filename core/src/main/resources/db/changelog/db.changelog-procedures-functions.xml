@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- Procedures -->
+    <changeSet id="20250419-01" author="djerman">
+        <sqlFile path="procedures/predjeniPutGPS.sql" relativeToChangelogFile="true" endDelimiter="END" />
+    </changeSet>
+
+    <changeSet id="20250419-02" author="djerman">
+        <sqlFile path="procedures/radnoVreme.sql" relativeToChangelogFile="true" endDelimiter="END" />
+    </changeSet>
+
+    <changeSet id="20250419-03" author="djerman">
+        <sqlFile path="procedures/radnoVremeGPS.sql" relativeToChangelogFile="true" endDelimiter="END" />
+    </changeSet>
+
+    <changeSet id="20250419-04" author="djerman">
+        <sqlFile path="procedures/radnoVremeOBD.sql" relativeToChangelogFile="true" endDelimiter="END" />
+    </changeSet>
+
+    <changeSet id="20250419-05" author="djerman">
+        <sqlFile path="procedures/radnoVremeUkupno.sql" relativeToChangelogFile="true" endDelimiter="END" />
+    </changeSet>
+
+    <changeSet id="20250419-06" author="djerman">
+        <sqlFile path="procedures/radnoVremeUkupnoOBD.sql" relativeToChangelogFile="true" endDelimiter="END" />
+    </changeSet>
+
+    <!-- Functions -->
+    <changeSet id="20250419-07" author="djerman">
+        <sqlFile path="functions/predjeniPutUkupno.sql" relativeToChangelogFile="true" endDelimiter="END" />
+    </changeSet>
+
+</databaseChangeLog>
