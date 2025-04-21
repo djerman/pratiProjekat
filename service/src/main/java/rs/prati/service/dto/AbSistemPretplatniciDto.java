@@ -1,41 +1,24 @@
+package rs.prati.service.dto;
 
-package rs.prati.core.model;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.Email;
 
-import jakarta.persistence.*;
-import java.time.LocalDate;
+/**
+ * DTO за ентитет AbSistemPretplatnici, користи се за пренос података ка и од REST сервиса.
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AbSistemPretplatniciDto extends BaseDto {
 
-@Entity
-@Table(name = "ab_sistemPretplatnici")
-public class AbSistemPretplatnici extends BaseEntity {
-
-    @Column(name = "naziv")
     private String naziv;
-
-    @Column(name = "sistem")
     private Boolean sistem;
 
-    @Column(name = "email")
+    @Email
     private String email;
-
-    @Column(name = "aktivan")
     private Boolean aktivan;
-
-    @Column(name = "aktivanDo")
-    private LocalDate aktivanDo;
-
-    @Column(name = "apiKey")
     private String apiKey;
-
-    @Column(name = "tip")
     private Boolean tip;
-
-    @Column(name = "nadzorId")
     private Long nadzorId;
-
-    @Column(name = "gMapa")
     private Boolean gMapa;
-
-    // Getтери и сеттери
 
     public String getNaziv() {
         return naziv;
@@ -67,14 +50,6 @@ public class AbSistemPretplatnici extends BaseEntity {
 
     public void setAktivan(Boolean aktivan) {
         this.aktivan = aktivan;
-    }
-
-    public LocalDate getAktivanDo() {
-        return aktivanDo;
-    }
-
-    public void setAktivanDo(LocalDate aktivanDo) {
-        this.aktivanDo = aktivanDo;
     }
 
     public String getApiKey() {

@@ -1,32 +1,27 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Entity
-@Table(name = "ac_organizacije")
-public class AcOrganizacije extends BaseEntity {
+/**
+ * DTO класа за организације. Користи се за пренос података између слојева.
+ */
+public class AcOrganizacijeDto extends BaseDto {
 
     @NotNull
-    @Column(name = "pretplatnikId", nullable = false)
     private Long pretplatnikId;
 
     @NotNull
     @Size(max = 255)
-    @Column(name = "naziv", nullable = false, length = 255)
     private String naziv;
 
     @Size(max = 255)
-    @Column(name = "opis", length = 255)
     private String opis;
 
     @NotNull
-    @Column(name = "aktivan", nullable = false)
     private Boolean aktivan = true;
 
-    // Getтери и сеттери
-
+    // Гетери и сетери
     public Long getPretplatnikId() {
         return pretplatnikId;
     }
@@ -58,5 +53,4 @@ public class AcOrganizacije extends BaseEntity {
     public void setAktivan(Boolean aktivan) {
         this.aktivan = aktivan;
     }
-
 }
