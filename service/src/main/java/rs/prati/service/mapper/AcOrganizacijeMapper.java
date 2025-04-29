@@ -5,10 +5,9 @@ import rs.prati.core.model.AcOrganizacije;
 import rs.prati.service.dto.AcOrganizacijeDto;
 
 /**
- * MapStruct мапер између ентитета и DTO објеката за организације.
+ * MapStruct мапер за ентитет AcOrganizacije и његов DTO.
  */
 @Mapper(componentModel = "spring")
-public interface AcOrganizacijeMapper {
-    AcOrganizacijeDto toDto(AcOrganizacije entity);
-    AcOrganizacije toEntity(AcOrganizacijeDto dto);
+public interface AcOrganizacijeMapper extends EntityMapper<AcOrganizacije, AcOrganizacijeDto> {
+	
 }

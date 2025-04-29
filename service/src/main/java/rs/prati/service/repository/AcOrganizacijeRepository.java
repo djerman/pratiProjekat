@@ -1,14 +1,13 @@
 package rs.prati.service.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import rs.prati.core.model.AcOrganizacije;
 
 /**
- * Репозиторијум за организације.
+ * Репозиторијум за приступ подацима ентитета AcOrganizacije.
  */
+@Repository
 public interface AcOrganizacijeRepository extends JpaRepository<AcOrganizacije, Long> {
-	
-	List<AcOrganizacije> findByPretplatnikId(Long pretplatnikId);
+    // Овде се могу додавати custom query методе ако буде потребно.
 }

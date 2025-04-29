@@ -1,64 +1,57 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Ентитет класа која представља дефиниције аларма у систему.
- * Сваки аларм описује врсту догађаја који може бити детектован (нпр. прекорачење брзине, губитак сигнала...).
- * Користи се за означавање типа аларма који ће бити приказан или алармиран.
+ * DTO класа за ентитет AdSistemAlarmi.
+ * Користи се за пренос података између слојева апликације.
+ * Наслеђује заједничка поља из BaseDto (id, version, izbrisan, kreirano, izmenjeno).
  */
-@Entity
-@Table(name = "ad_sistemAlarmi")
-public class AdSistemAlarmi extends BaseEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AdSistemAlarmiDto extends BaseDto {
 
     /** Назив аларма (нпр. "Прекорачење брзине"). */
     @NotNull
     @Size(max = 30)
-    @Column(name = "naziv")
     private String naziv;
 
     /** Опис аларма (детаљније информације о аларму). */
     @Size(max = 100)
-    @Column(name = "opis")
     private String opis;
 
     /** Шифра аларма која се користи у систему. */
     @NotNull
     @Size(max = 20)
-    @Column(name = "sifra")
     private String sifra;
 
     /** Да ли се аларм односи на адресу (локацију). */
     @NotNull
-    @Column(name = "adresa")
     private Boolean adresa;
 
     /** Да ли је омогућен преглед аларма. */
     @NotNull
-    @Column(name = "pregled")
     private Boolean pregled;
 
     /** Да ли ће се аларм приказивати у корисничком интерфејсу. */
     @NotNull
-    @Column(name = "prikaz")
     private Boolean prikaz;
 
     /** Да ли ће се активирати алармирање (нпр. звучни сигнал, нотификација). */
     @NotNull
-    @Column(name = "alarmiranje")
     private Boolean alarmiranje;
 
     /** Да ли је аларм активан. */
     @NotNull
-    @Column(name = "aktivan")
     private Boolean aktivan;
 
     /** Да ли се аларм шаље путем е-поште. */
     @NotNull
-    @Column(name = "email")
     private Boolean email;
+
+    // Геттер-и и сеттер-и
 
     public String getNaziv() {
         return naziv;

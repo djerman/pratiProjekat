@@ -1,27 +1,36 @@
 package rs.prati.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * DTO класа за организације. Користи се за пренос података између слојева.
+ * DTO класа за ентитет AcOrganizacije.
+ * Користи се за пренос података између слојева апликације.
+ * Наслеђује заједничка поља из BaseDto (id, version, izbrisan, kreirano, izmenjeno).
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AcOrganizacijeDto extends BaseDto {
 
+    /** ИД претплатника ком организација припада. */
     @NotNull
     private Long pretplatnikId;
 
+    /** Назив организације. */
     @NotNull
     @Size(max = 255)
     private String naziv;
 
+    /** Опис организације. */
     @Size(max = 255)
     private String opis;
 
+    /** Да ли је организација активна. */
     @NotNull
-    private Boolean aktivan = true;
+    private Boolean aktivan;
 
-    // Гетери и сетери
+    // Геттер-и и сеттер-и
+
     public Long getPretplatnikId() {
         return pretplatnikId;
     }

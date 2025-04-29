@@ -5,10 +5,9 @@ import rs.prati.core.model.AbSistemPretplatnici;
 import rs.prati.service.dto.AbSistemPretplatniciDto;
 
 /**
- * MapStruct интерфејс за мапирање између ентитета AbSistemPretplatnici и DTO класе.
+ * MapStruct мапер за ентитет AbSistemPretplatnici и његов DTO.
  */
 @Mapper(componentModel = "spring")
-public interface AbSistemPretplatniciMapper {
-    AbSistemPretplatniciDto toDto(AbSistemPretplatnici entity);
-    AbSistemPretplatnici toEntity(AbSistemPretplatniciDto dto);
+public interface AbSistemPretplatniciMapper extends EntityMapper<AbSistemPretplatnici, AbSistemPretplatniciDto> {
+	
 }

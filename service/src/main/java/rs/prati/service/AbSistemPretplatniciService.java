@@ -1,68 +1,55 @@
 package rs.prati.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rs.prati.core.model.AbSistemPretplatnici;
+import rs.prati.service.common.AbstractCrudService;
 import rs.prati.service.dto.AbSistemPretplatniciDto;
 import rs.prati.service.mapper.AbSistemPretplatniciMapper;
 import rs.prati.service.repository.AbSistemPretplatniciRepository;
-import rs.prati.service.delete.PretplatnikCascadeDeleter;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
- * Сервисна класа за рад са системским претплатницима.
- * Подржава каскадно брисање свих ентитета повезаних са претплатником.
+ * Сервис класа за управљање ентитетом AbSistemPretplatnici.
+ * Наслеђује основне CRUD методе из AbstractCrudService.
  */
 @Service
-public class AbSistemPretplatniciService {
+@Transactional
+public class AbSistemPretplatniciService extends AbstractCrudService<AbSistemPretplatnici, AbSistemPretplatniciDto> {
 
-    @Autowired
-    private AbSistemPretplatniciRepository repository;
+    /** Репозиторијум за приступ ентитету AbSistemPretplatnici. */
+    private final AbSistemPretplatniciRepository repository;
 
-    @Autowired
-    private AbSistemPretplatniciMapper mapper;
+    /** MapStruct мапер за конверзију између ентитета и DTO-а. */
+    private final AbSistemPretplatniciMapper mapper;
 
-    @Autowired
-    private List<PretplatnikCascadeDeleter> deleters;
-
-    public List<AbSistemPretplatniciDto> findAll() {
-        return repository.findAll().stream().map(mapper::toDto).toList();
-    }
-
-    public Optional<AbSistemPretplatniciDto> findById(Long id) {
-        return repository.findById(id).map(mapper::toDto);
-    }
-
-    @Transactional
-    public AbSistemPretplatniciDto save(AbSistemPretplatniciDto dto) {
-        AbSistemPretplatnici entity = mapper.toEntity(dto);
-        return mapper.toDto(repository.save(entity));
-    }
-
-    @Transactional
-    public void oznaciIzbrisan(Long id) {
-        repository.findById(id).ifPresent(entity -> {
-            entity.oznaciIzbrisan();
-            repository.save(entity);
-        });
+    /**
+     * Конструктор који иницијализује репозиторијум и мапер.
+     *
+     * @param repository репозиторијум за AbSistemPretplatnici
+     * @param mapper мапер за AbSistemPretplatnici
+     */
+    public AbSistemPretplatniciService(AbSistemPretplatniciRepository repository, AbSistemPretplatniciMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
     /**
-     * Брише претплатника и све ентитете повезане са њим директно или индиректно.
+     * Враћа репозиторијум за AbSistemPretplatnici.
+     *
+     * @return репозиторијум
      */
-    @Transactional
-    public void deleteById(Long id) {
-        // 1. Покрени све сервисе који чисте податке по pretplatnikId
-        for (PretplatnikCascadeDeleter deleter : deleters) {
-            deleter.deleteAllByPretplatnikId(id);
-        }
+    @Override
+    protected AbSistemPretplatniciRepository getRepository() {
+        return repository;
+    }
 
-        // 2. Обриши самог претплатника
-        repository.deleteById(id);
+    /**
+     * Враћа мапер за AbSistemPretplatnici.
+     *
+     * @return мапер
+     */
+    @Override
+    protected AbSistemPretplatniciMapper getMapper() {
+        return mapper;
     }
 }
-
-

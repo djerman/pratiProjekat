@@ -1,81 +1,111 @@
 package rs.prati.rest.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import rs.prati.service.AcOrganizacijeService;
+import rs.prati.service.common.CrudService;
 import rs.prati.service.dto.AcOrganizacijeDto;
 
 import java.util.List;
 
 /**
  * REST контролер за организације.
- * Приступ имају:
- * - системски корисници,
- * - администратори (само ако припадају истом претплатнику као организација).
+ * Приступ имају систем и администратор.
  */
 @RestController
 @RequestMapping("/api/organizacije")
-@Hidden // Сакривен из Swagger-а
-public class AcOrganizacijeController {
+@Hidden
+public class AcOrganizacijeController extends AbstractCrudController<AcOrganizacijeDto> {
 
-    @Autowired
-    private AcOrganizacijeService service;
+    /** Сервис за управљање организацијама. */
+    private final AcOrganizacijeService service;
 
     /**
-     * Враћа листу свих организација. Приступ имају систем и администратор.
-     * Администратор може видети само организације из свог претплатничког домена (филтрација се обавља у сервису).
+     * Конструктор који прима сервис.
+     *
+     * @param service сервис за организације
      */
-    @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SYSTEM')")
-    public ResponseEntity<List<AcOrganizacijeDto>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    public AcOrganizacijeController(AcOrganizacijeService service) {
+        this.service = service;
     }
 
     /**
-     * Враћа једну организацију по ID-у. Приступ имају систем и администратор.
-     * Администратор може видети само организацију у оквиру свог претплатничког домена.
+     * Враћа CrudService за рад са организацијама.
+     *
+     * @return CrudService
      */
+    @Override
+    protected CrudService<?, AcOrganizacijeDto> getService() {
+        return service;
+    }
+
+    /**
+     * Враћа све организације.
+     *
+     * @return листа организација
+     */
+    @Override
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SYSTEM')")
+    public ResponseEntity<List<AcOrganizacijeDto>> findAll() {
+        return ResponseEntity.ok(getService().findAll());
+    }
+
+    /**
+     * Враћа организацију по ID-у.
+     *
+     * @param id идентификатор организације
+     * @return организација ако постоји
+     */
+    @Override
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SYSTEM')")
     public ResponseEntity<AcOrganizacijeDto> findById(@PathVariable Long id) {
-        return service.findById(id)
+        return getService().findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     /**
-     * Снима нову или ажурира постојећу организацију.
-     * Ово може радити само системски корисник.
+     * Чува или ажурира организацију.
+     *
+     * @param dto DTO организације
+     * @return сачувана организација
      */
+    @Override
     @PostMapping
     @PreAuthorize("hasRole('ROLE_SYSTEM')")
-    public ResponseEntity<AcOrganizacijeDto> save(@Valid @RequestBody AcOrganizacijeDto dto) {
-        return ResponseEntity.ok(service.save(dto));
+    public ResponseEntity<AcOrganizacijeDto> save(@RequestBody AcOrganizacijeDto dto) {
+        return ResponseEntity.ok(getService().save(dto));
     }
 
     /**
-     * Меки delete (логичко брисање) организације — поставља поље 'izbrisan' на true.
-     * Само за системског корисника.
+     * Логички брише организацију (soft delete).
+     *
+     * @param id идентификатор организације
+     * @return празан одговор ако је успешно
      */
+    @Override
     @DeleteMapping("/soft/{id}")
     @PreAuthorize("hasRole('ROLE_SYSTEM')")
     public ResponseEntity<Void> oznaciIzbrisan(@PathVariable Long id) {
-        service.oznaciIzbrisan(id);
+        getService().oznaciIzbrisan(id);
         return ResponseEntity.noContent().build();
     }
 
     /**
-     * Тврдо брисање организације из базе (само за системског корисника).
+     * Потпуно брише организацију (hard delete).
+     *
+     * @param id идентификатор организације
+     * @return празан одговор ако је успешно
      */
+    @Override
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_SYSTEM')")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        service.deleteById(id);
+    public ResponseEntity<Void> hardDelete(@PathVariable Long id) {
+        getService().hardDelete(id);
         return ResponseEntity.noContent().build();
     }
 }
-

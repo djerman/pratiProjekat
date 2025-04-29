@@ -1,24 +1,50 @@
 package rs.prati.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 
 /**
- * DTO за ентитет AbSistemPretplatnici, користи се за пренос података ка и од REST сервиса.
+ * DTO класа за ентитет AbSistemPretplatnici.
+ * Користи се за пренос података између слојева апликације.
+ * Наслеђује заједничка поља из BaseDto (id, version, izbrisan, kreirano, izmenjeno).
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AbSistemPretplatniciDto extends BaseDto {
 
+    /** Назив претплатника. */
+    @Size(max = 255)
+    @NotNull
     private String naziv;
+
+    /** Да ли је системски претплатник. */
     private Boolean sistem;
 
-    @Email
+    /** Електронска пошта претплатника. */
+    @Size(max = 255)
     private String email;
+
+    /** Да ли је претплатник активан. */
     private Boolean aktivan;
+
+    /** Датум до када је активан. */
+    private LocalDate aktivanDo;
+
+    /** API кључ за интеграцију. */
+    @Size(max = 255)
     private String apiKey;
+
+    /** Тип претплатника. */
     private Boolean tip;
+
+    /** ID надзорне организације. */
     private Long nadzorId;
+
+    /** Да ли користи Google мапе. */
     private Boolean gMapa;
+
+    // Геттер-и и сеттер-и
 
     public String getNaziv() {
         return naziv;
@@ -50,6 +76,14 @@ public class AbSistemPretplatniciDto extends BaseDto {
 
     public void setAktivan(Boolean aktivan) {
         this.aktivan = aktivan;
+    }
+
+    public LocalDate getAktivanDo() {
+        return aktivanDo;
+    }
+
+    public void setAktivanDo(LocalDate aktivanDo) {
+        this.aktivanDo = aktivanDo;
     }
 
     public String getApiKey() {

@@ -1,58 +1,71 @@
 package rs.prati.rest.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import rs.prati.service.AbSistemPretplatniciService;
+import rs.prati.service.common.CrudService;
 import rs.prati.service.dto.AbSistemPretplatniciDto;
 
 import java.util.List;
 
 /**
- * REST контролер за рад са системским претплатницима. Приступ имају систем и администратор.
+ * REST контролер за системске претплатнике.
+ * Приступ имају систем и администратор.
  */
 @RestController
 @RequestMapping("/api/pretplatnici")
-@Hidden //@Tag(name = "Pretplatnici", description = "Управљање системским претплатницима")
-public class AbSistemPretplatniciController {
+@Hidden
+public class AbSistemPretplatniciController extends AbstractCrudController<AbSistemPretplatniciDto> {
 
-    @Autowired
-    private AbSistemPretplatniciService service;
+    private final AbSistemPretplatniciService service;
 
+    public AbSistemPretplatniciController(AbSistemPretplatniciService service) {
+        this.service = service;
+    }
+
+    @Override
+    protected CrudService<?, AbSistemPretplatniciDto> getService() {
+        return service;
+    }
+
+    @Override
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SYSTEM')")
     public ResponseEntity<List<AbSistemPretplatniciDto>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+        return ResponseEntity.ok(getService().findAll());
     }
 
+    @Override
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SYSTEM')")
     public ResponseEntity<AbSistemPretplatniciDto> findById(@PathVariable Long id) {
-        return service.findById(id)
+        return getService().findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Override
     @PostMapping
     @PreAuthorize("hasRole('ROLE_SYSTEM')")
-    public ResponseEntity<AbSistemPretplatniciDto> save(@Valid @RequestBody AbSistemPretplatniciDto dto) {
-        return ResponseEntity.ok(service.save(dto));
+    public ResponseEntity<AbSistemPretplatniciDto> save(@RequestBody AbSistemPretplatniciDto dto) {
+        return ResponseEntity.ok(getService().save(dto));
     }
 
+    @Override
     @DeleteMapping("/soft/{id}")
     @PreAuthorize("hasRole('ROLE_SYSTEM')")
     public ResponseEntity<Void> oznaciIzbrisan(@PathVariable Long id) {
-        service.oznaciIzbrisan(id);
+        getService().oznaciIzbrisan(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Override
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_SYSTEM')")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        service.deleteById(id);
+    public ResponseEntity<Void> hardDelete(@PathVariable Long id) {
+        getService().hardDelete(id);
         return ResponseEntity.noContent().build();
     }
 }

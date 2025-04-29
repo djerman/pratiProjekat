@@ -81,5 +81,4 @@ public abstract class BaseEntity {
         this.izbrisan = true;
     }
 
-    // Потпуни (hard) delete се имплементира у сервисима, зависно од ентитета.
 }

@@ -1,8 +1,6 @@
 package rs.prati.rest.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -10,35 +8,45 @@ import rs.prati.service.AaSistemService;
 import rs.prati.service.dto.AaSistemDto;
 
 /**
- * Контролер за приступ системским параметрима – доступан искључиво системским корисницима
+ * REST контролер за системске параметре (AaSistem).
  */
 @RestController
 @RequestMapping("/api/sistem")
 @Hidden
 public class AaSistemController {
 
-    @Autowired
-    private AaSistemService service;
+    /** Сервис за системске параметре. */
+    private final AaSistemService service;
 
     /**
-     *  Враћа тренутно сачуване системске параметре из базе
-     * @return
+     * Конструктор који прима сервис.
+     *
+     * @param service сервис за AaSistem
+     */
+    public AaSistemController(AaSistemService service) {
+        this.service = service;
+    }
+
+    /**
+     * Враћа тренутне системске параметре.
+     *
+     * @return системски параметри
      */
     @GetMapping
     @PreAuthorize("hasRole('ROLE_SYSTEM')")
     public ResponseEntity<AaSistemDto> get() {
-        AaSistemDto dto = service.get();
-        return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(service.get());
     }
 
     /**
-     *  Ажурира постојеће системске параметре – не дозвољава креирање нових записа
-     * @param dto
-     * @return
+     * Ажурира системске параметре.
+     *
+     * @param dto нови подаци за системске параметре
+     * @return ажурирани системски параметри
      */
     @PutMapping
     @PreAuthorize("hasRole('ROLE_SYSTEM')")
-    public ResponseEntity<AaSistemDto> update(@Valid @RequestBody AaSistemDto dto) {
+    public ResponseEntity<AaSistemDto> update(@RequestBody AaSistemDto dto) {
         return ResponseEntity.ok(service.update(dto));
     }
 }

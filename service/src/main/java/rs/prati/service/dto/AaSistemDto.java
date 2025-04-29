@@ -1,37 +1,67 @@
 package rs.prati.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
+/**
+ * DTO класа за ентитет AaSistem.
+ * Користи се за пренос података о системским параметрима.
+ * Наслеђује заједничка поља из BaseDto.
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AaSistemDto {
+public class AaSistemDto extends BaseDto {
 
-    private Integer id;
-
+    /** Назив власника система. */
+    @Size(max = 255)
     private String vlasnik;
+
+    /** Адреса власника система. */
+    @Size(max = 255)
     private String adresaVlasnika;
+
+    /** Веб сајт власника. */
+    @Size(max = 255)
     private String sajtVlasnika;
+
+    /** Број телефона власника. */
+    @Size(max = 255)
     private String telVlasnika;
 
-    @Email
+    /** Електронска пошта власника. */
+    @Size(max = 255)
     private String emailVlasnika;
 
+    /** API кључ за интеграције. */
+    @Size(max = 255)
     private String api;
+
+    /** Да ли се користи сервер мапе. */
     private Boolean serverMape;
+
+    /** Адреса сервера за мапе. */
+    @Size(max = 255)
     private String adresaServeraMape;
+
+    /** Адреса Nominatim сервиса. */
+    @Size(max = 255)
     private String nominatimAdresa;
+
+    /** SMTP сервер за е-пошту. */
+    @Size(max = 255)
     private String emailServer;
+
+    /** Порт SMTP сервера. */
     private Integer emailServerPort;
+
+    /** Корисничко име за слање е-поште. */
+    @Size(max = 255)
     private String emailKorisnik;
+
+    /** Лозинка за е-пошту. */
+    @Size(max = 255)
     private String emailLozinka;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    // Геттер-и и сеттер-и
 
     public String getVlasnik() {
         return vlasnik;
