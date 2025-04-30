@@ -1,84 +1,60 @@
 package rs.prati.core.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Ентитет који представља произвођаче уређаја.
+ */
 @Entity
 @Table(name = "ah_sistemUredjajiProizvodjac")
-public class AhSistemUredjajiProizvodjac {
+public class AhSistemUredjajiProizvodjac extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
-    @NotNull
-    @Column(name = "version")
-    private Integer version;
-
+    /** Назив произвођача. */
     @NotNull
     @Size(max = 100)
     @Column(name = "naziv")
     private String naziv;
 
+    /** Адреса произвођача. */
     @Size(max = 100)
     @Column(name = "adresa")
     private String adresa;
 
+    /** Опис произвођача. */
     @Column(name = "opis")
     private String opis;
 
-    @NotNull
-    @Column(name = "izbrisan")
-    private Boolean izbrisan;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
+    /** Враћа назив произвођача. */
     public String getNaziv() {
         return naziv;
     }
 
+    /** Поставља назив произвођача. */
     public void setNaziv(String naziv) {
         this.naziv = naziv;
     }
 
+    /** Враћа адресу произвођача. */
     public String getAdresa() {
         return adresa;
     }
 
+    /** Поставља адресу произвођача. */
     public void setAdresa(String adresa) {
         this.adresa = adresa;
     }
 
+    /** Враћа опис произвођача. */
     public String getOpis() {
         return opis;
     }
 
+    /** Поставља опис произвођача. */
     public void setOpis(String opis) {
         this.opis = opis;
-    }
-
-    public Boolean getIzbrisan() {
-        return izbrisan;
-    }
-
-    public void setIzbrisan(Boolean izbrisan) {
-        this.izbrisan = izbrisan;
     }
 }

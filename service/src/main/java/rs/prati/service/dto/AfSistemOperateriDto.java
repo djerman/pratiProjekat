@@ -1,22 +1,20 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Ентитет који представља системске оператере.
+ * DTO класа за ентитет AfSistemOperateri.
+ * Користи се за пренос података о системским оператерима.
+ * Наслеђује заједничка поља из BaseDto.
  */
-@Entity
-@Table(name = "af_sistemOperateri")
-public class AfSistemOperateri extends BaseEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AfSistemOperateriDto extends BaseDto {
 
     /** Назив оператера. */
     @NotNull
     @Size(max = 100)
-    @Column(name = "naziv")
     private String naziv;
 
     /**
@@ -31,7 +29,7 @@ public class AfSistemOperateri extends BaseEntity {
     /**
      * Поставља назив оператера.
      *
-     * @param naziv назив
+     * @param naziv назив оператера
      */
     public void setNaziv(String naziv) {
         this.naziv = naziv;

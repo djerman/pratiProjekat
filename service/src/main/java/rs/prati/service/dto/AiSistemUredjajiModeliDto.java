@@ -1,46 +1,38 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Ентитет који представља моделе уређаја.
+ * DTO класа за ентитет AiSistemUredjajiModeli.
+ * Користи се за пренос података о моделима уређаја.
  */
-@Entity
-@Table(name = "ai_sistemUredjajiModeli")
-public class AiSistemUredjajiModeli extends BaseEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AiSistemUredjajiModeliDto extends BaseDto {
 
     /** Идентификатор произвођача. */
     @NotNull
-    @Column(name = "proizvodjacId")
     private Long proizvodjacId;
 
     /** Назив модела уређаја. */
     @NotNull
     @Size(max = 100)
-    @Column(name = "naziv")
     private String naziv;
 
     /** Опис модела уређаја. */
-    @Column(name = "opis")
     private String opis;
 
     /** Да ли подржава другу SIM картицу. */
     @NotNull
-    @Column(name = "sim2", columnDefinition = "TINYINT(1)")
     private Boolean sim2;
 
     /** Да ли подржава OBD интерфејс. */
     @NotNull
-    @Column(name = "obd")
     private Boolean obd;
 
     /** Да ли подржава обрачун. */
     @NotNull
-    @Column(name = "obracun")
     private Boolean obracun;
 
     public Long getProizvodjacId() {

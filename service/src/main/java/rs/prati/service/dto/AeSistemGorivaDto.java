@@ -1,22 +1,20 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Ентитет који представља типове система горива.
+ * DTO класа за ентитет AeSistemGoriva.
+ * Користи се за пренос података о системима горива.
+ * Наслеђује заједничка поља из BaseDto.
  */
-@Entity
-@Table(name = "ae_sistemGoriva")
-public class AeSistemGoriva extends BaseEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class AeSistemGorivaDto extends BaseDto {
 
     /** Назив система горива. */
     @NotNull
     @Size(max = 45)
-    @Column(name = "naziv")
     private String naziv;
 
     /**

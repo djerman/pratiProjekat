@@ -1,103 +1,85 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
- * Ентитет који представља кориснике система.
+ * DTO класа за ентитет BaKorisnici.
+ * Користи се за пренос података о корисницима система.
  */
-@Entity
-@Table(name = "ba_korisnici")
-public class BaKorisnici extends BaseEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class BaKorisniciDto extends BaseDto {
 
     /** Име корисника. */
     @NotNull
     @Size(max = 50)
-    @Column(name = "ime")
     private String ime;
 
     /** Презиме корисника. */
     @NotNull
     @Size(max = 50)
-    @Column(name = "prezime")
     private String prezime;
 
     /** Да ли је означен као корисник. */
     @NotNull
-    @Column(name = "korisnik", columnDefinition = "TINYINT(1)")
     private Boolean korisnik;
 
     /** Емаил адреса корисника. */
     @NotNull
     @Size(max = 100)
     @Email
-    @Column(name = "email")
     private String email;
 
     /** Лозинка корисника. */
     @NotNull
     @Size(max = 255)
-    @Column(name = "lozinka")
     private String lozinka;
 
     /** Телефон корисника. */
     @Size(max = 30)
-    @Column(name = "telefon")
     private String telefon;
 
     /** Мобилни телефон корисника. */
     @Size(max = 30)
-    @Column(name = "mobilni")
     private String mobilni;
 
     /** iButton идентификатор. */
     @Size(max = 50)
-    @Column(name = "ibutton")
     private String ibutton;
 
     /** Да ли је корисник возач. */
     @NotNull
-    @Column(name = "vozac", columnDefinition = "TINYINT(1)")
     private Boolean vozac;
 
     /** Да ли је администратор. */
     @NotNull
-    @Column(name = "admin", columnDefinition = "TINYINT(1)")
     private Boolean admin;
 
     /** Да ли је системски корисник. */
     @NotNull
-    @Column(name = "sistem", columnDefinition = "TINYINT(1)")
     private Boolean sistem;
 
     /** Да ли је корисник активан. */
     @NotNull
-    @Column(name = "aktivan", columnDefinition = "TINYINT(1)")
     private Boolean aktivan;
 
     /** Време до када је налог активан. */
-    @Column(name = "aktivan_do")
     private LocalDateTime aktivanDo;
 
     /** Идентификатор претплатника (FK). */
-    @Column(name = "pretplatnik_id")
     private Long pretplatnikId;
 
     /** Идентификатор организације (FK). */
-    @Column(name = "organizacija_id")
     private Long organizacijaId;
 
     /** URL до слике профила. */
     @Size(max = 255)
-    @Column(name = "slika_url")
     private String slikaUrl;
 
-    // --- Getери и Setтери ---
+    // --- Getери и Setери ---
 
     public String getIme() {
         return ime;

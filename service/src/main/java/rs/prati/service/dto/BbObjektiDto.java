@@ -1,54 +1,44 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * Ентитет који представља објекте (нпр. возила или уређаје) у систему.
+ * DTO класа за ентитет BbObjekti.
+ * Користи се за пренос података о објектима у систему.
  */
-@Entity
-@Table(name = "bb_objekti")
-public class BbObjekti extends BaseEntity {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class BbObjektiDto extends BaseDto {
 
     /** Идентификатор претплатника. */
     @NotNull
-    @Column(name = "pretplatnik_id")
     private Long pretplatnikId;
 
     /** Идентификатор организације. */
     @NotNull
-    @Column(name = "organizacija_id")
     private Long organizacijaId;
 
     /** Ознака објекта. */
     @NotNull
-    @Column(name = "oznaka")
     private String oznaka;
 
     /** Тип објекта. */
     @NotNull
-    @Column(name = "tip")
     private String tip;
 
     /** Време стајања (у минутима). */
     @NotNull
-    @Column(name = "vreme_stajanja")
     private Integer vremeStajanja;
 
     /** Дозвољено прекорачење брзине. */
     @NotNull
-    @Column(name = "prekoracenje_brzine")
     private Integer prekoracenjeBrzine;
 
     /** Да ли је објекат активан. */
     @NotNull
-    @Column(name = "aktivan", columnDefinition = "TINYINT(1)")
     private Boolean aktivan;
 
     /** Идентификатор возила ако је повезано. */
-    @Column(name = "vozilo_id")
     private Long voziloId;
 
     public Long getPretplatnikId() {
