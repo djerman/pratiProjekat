@@ -3,81 +3,83 @@ package rs.prati.core.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+
+/**
+ * Ентитет који представља уређаје у систему.
+ */
 @Entity
 @Table(name = "bc_uredjaji")
-public class BcUredjaji {
+public class BcUredjaji extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /** Претплатник коме уређај припада. */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnik_id", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
+    /** Организација у оквиру претплатника. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacija_id")
+    private AcOrganizacije organizacija;
+
+    /** Модел уређаја. */
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "model_id", nullable = false)
+    private AiSistemUredjajiModeli model;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
-    @NotNull
-    @Column(name = "modelId")
-    private Long modelId;
-
+    /** Серијски број уређаја. */
     @NotNull
     @Size(max = 30)
-    @Column(name = "serijskiBr")
+    @Column(name = "serijski_br", nullable = false)
     private String serijskiBr;
 
+    /** Интерни код уређаја. */
     @NotNull
     @Size(max = 30)
-    @Column(name = "kod")
+    @Column(name = "kod", nullable = false)
     private String kod;
 
-    @Column(name = "objekatId")
-    private Long objekatId;
+    /** Објекат на који је уређај повезан. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objekat_id")
+    private BbObjekti objekat;
 
+    /** Да ли је уређај тренутно заузет (системски израчун). */
     @NotNull
-    @Column(name = "zauzet")
-    private Boolean zauzet;
+    @Column(name = "zauzet", nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean zauzet = false;
 
+    /** Да ли је уређај активан. */
     @NotNull
-    @Column(name = "aktivan")
+    @Column(name = "aktivan", nullable = false, columnDefinition = "TINYINT(1)")
     private Boolean aktivan;
 
+    /** Опис уређаја. */
     @Size(max = 100)
     @Column(name = "opis")
     private String opis;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Време креирања. */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Време последње измене. */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
+    /** Логичко брисање. */
     @NotNull
-    @Column(name = "izbrisan")
-    private Boolean izbrisan;
+    @Column(name = "izbrisan", nullable = false, columnDefinition = "TINYINT(1)")
+    private Boolean izbrisan = false;
 
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // --- Гетери и Сетери ---
 
     public Integer getVersion() {
         return version;
@@ -87,28 +89,28 @@ public class BcUredjaji {
         this.version = version;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Long getOrganizacijaId() {
-        return organizacijaId;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getModelId() {
-        return modelId;
+    public AiSistemUredjajiModeli getModel() {
+        return model;
     }
 
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
+    public void setModel(AiSistemUredjajiModeli model) {
+        this.model = model;
     }
 
     public String getSerijskiBr() {
@@ -127,12 +129,12 @@ public class BcUredjaji {
         this.kod = kod;
     }
 
-    public Long getObjekatId() {
-        return objekatId;
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setObjekatId(Long objekatId) {
-        this.objekatId = objekatId;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
     public Boolean getZauzet() {

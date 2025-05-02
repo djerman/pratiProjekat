@@ -1,43 +1,46 @@
 package rs.prati.core.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 /**
- * Ентитет који представља објекте (нпр. возила или уређаје) у систему.
+ * Ентитет који представља објекте у систему (нпр. возила, уређаје).
  */
 @Entity
 @Table(name = "bb_objekti")
 public class BbObjekti extends BaseEntity {
 
-    /** Идентификатор претплатника. */
+    /** Претплатник коме припада објекат. */
     @NotNull
-    @Column(name = "pretplatnik_id")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnik_id", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    /** Идентификатор организације. */
+    /** Организација у оквиру претплатника. */
     @NotNull
-    @Column(name = "organizacija_id")
-    private Long organizacijaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacija_id", nullable = false)
+    private AcOrganizacije organizacija;
 
     /** Ознака објекта. */
     @NotNull
+    @Size(max = 100)
     @Column(name = "oznaka")
     private String oznaka;
 
     /** Тип објекта. */
     @NotNull
+    @Size(max = 50)
     @Column(name = "tip")
     private String tip;
 
-    /** Време стајања (у минутима). */
+    /** Време стајања у минутима. */
     @NotNull
     @Column(name = "vreme_stajanja")
     private Integer vremeStajanja;
 
-    /** Дозвољено прекорачење брзине. */
+    /** Прекорачење брзине у km/h. */
     @NotNull
     @Column(name = "prekoracenje_brzine")
     private Integer prekoracenjeBrzine;
@@ -47,24 +50,27 @@ public class BbObjekti extends BaseEntity {
     @Column(name = "aktivan", columnDefinition = "TINYINT(1)")
     private Boolean aktivan;
 
-    /** Идентификатор возила ако је повезано. */
-    @Column(name = "vozilo_id")
-    private Long voziloId;
+    /** Возило повезано са овим објектом. */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vozilo_id")
+    private CjVozilo vozilo;
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    // --- Гетери и Сетери ---
+
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Long getOrganizacijaId() {
-        return organizacijaId;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
     public String getOznaka() {
@@ -107,11 +113,11 @@ public class BbObjekti extends BaseEntity {
         this.aktivan = aktivan;
     }
 
-    public Long getVoziloId() {
-        return voziloId;
+    public CjVozilo getVozilo() {
+        return vozilo;
     }
 
-    public void setVoziloId(Long voziloId) {
-        this.voziloId = voziloId;
+    public void setVozilo(CjVozilo vozilo) {
+        this.vozilo = vozilo;
     }
 }

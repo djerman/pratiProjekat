@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import rs.prati.core.model.AbSistemPretplatnici;
 import rs.prati.core.model.BbObjekti;
 import rs.prati.service.common.MessageService;
 import rs.prati.service.dto.BbObjektiDto;
 import rs.prati.service.mapper.BbObjektiMapper;
 import rs.prati.service.repository.BbObjektiRepository;
-
 
 import java.util.Optional;
 
@@ -40,13 +40,17 @@ class BbObjektiServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        
+        AbSistemPretplatnici pretplatnik = new AbSistemPretplatnici();
+        pretplatnik.setId(1L);
+        pretplatnik.setNaziv("Test Pretplatnik");
 
         dto = new BbObjektiDto();
         dto.setPretplatnikId(1L);
         dto.setOznaka("TEST");
 
         entity = new BbObjekti();
-        entity.setPretplatnikId(1L);
+        entity.setPretplatnik(pretplatnik);
         entity.setOznaka("TEST");
         entity.setId(10L);
     }
@@ -54,7 +58,7 @@ class BbObjektiServiceTest {
     @Test
     void save_shouldSaveObject_WhenNoDuplicateExists() {
         // Нема постојећег дупликата
-        when(repository.findByPretplatnikIdAndOznakaAndIzbrisanFalse(1L, "TEST"))
+        when(repository.findByPretplatnik_IdAndOznakaAndIzbrisanFalse(1L, "TEST"))
                 .thenReturn(Optional.empty());
 
         when(mapper.toEntity(dto)).thenReturn(entity);
@@ -71,7 +75,7 @@ class BbObjektiServiceTest {
     @Test
     void save_shouldThrowException_WhenDuplicateExists() {
         // Већ постоји објекат са истом ознаком и претплатником
-        when(repository.findByPretplatnikIdAndOznakaAndIzbrisanFalse(1L, "TEST"))
+        when(repository.findByPretplatnik_IdAndOznakaAndIzbrisanFalse(1L, "TEST"))
                 .thenReturn(Optional.of(entity));
 
         when(messageService.getMessage("error.objekat.exists"))

@@ -10,9 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import rs.prati.service.BbObjektiService;
+import rs.prati.service.BcUredjajiService;
 import rs.prati.service.common.MessageService;
-import rs.prati.service.dto.BbObjektiDto;
+import rs.prati.service.dto.BcUredjajiDto;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -20,42 +20,39 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Тест контролера за BbObjekti.
+ * Тест контролера за BcUredjaji.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-class BbObjektiControllerTest {
+class BcUredjajiControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private BbObjektiService service;
+    private BcUredjajiService service;
 
     @MockBean
     private MessageService messageService;
 
-    //@MockBean
-    //private JpaMetamodelMappingContext jpaMetamodelMappingContext;
-    
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
     @WithMockUser(roles = "SYSTEM")
     void saveEndpoint_shouldReturnOk_WhenValidSave() throws Exception {
-        BbObjektiDto dto = new BbObjektiDto();
-        dto.setPretplatnikId(1L);
-        dto.setOznaka("TEST");
+        BcUredjajiDto dto = new BcUredjajiDto();
+        dto.setKod("TEST-123");
+        dto.setModelId(1L);
 
         when(service.save(any())).thenReturn(dto);
 
-        mockMvc.perform(post("/api/objekti")
+        mockMvc.perform(post("/api/uredjaji")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.oznaka").value("TEST"));
+                .andExpect(jsonPath("$.kod").value("TEST-123"));
 
         verify(service).save(any());
     }
@@ -63,13 +60,13 @@ class BbObjektiControllerTest {
     @Test
     @WithMockUser(roles = "SYSTEM")
     void saveEndpoint_shouldReturnBadRequest_WhenDuplicateExists() throws Exception {
-        BbObjektiDto dto = new BbObjektiDto();
-        dto.setPretplatnikId(1L);
-        dto.setOznaka("DUPLIKAT");
+        BcUredjajiDto dto = new BcUredjajiDto();
+        dto.setKod("DUPLIKAT");
+        dto.setModelId(1L);
 
-        when(service.save(any())).thenThrow(new IllegalStateException("Објекат већ постоји!"));
+        when(service.save(any())).thenThrow(new IllegalStateException("Уређај већ постоји!"));
 
-        mockMvc.perform(post("/api/objekti")
+        mockMvc.perform(post("/api/uredjaji")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isInternalServerError());

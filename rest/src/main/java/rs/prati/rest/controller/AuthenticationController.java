@@ -14,7 +14,7 @@ import rs.prati.core.model.BaKorisnici;
 import rs.prati.core.model.AuthRefreshToken;
 import rs.prati.service.dto.LoginRequest;
 import rs.prati.service.dto.LoginResponse;
-import rs.prati.service.dto.UserDto;
+import rs.prati.service.dto.BaKorisnikDto;
 import rs.prati.service.repository.BaKorisniciRepository;
 import rs.prati.service.security.AuthRefreshTokenService;
 import rs.prati.service.security.JwtTokenProvider;
@@ -80,13 +80,14 @@ public class AuthenticationController {
             if (korisnik.getKorisnik() != null && korisnik.getKorisnik()) uloge.add("KORISNIK");
 
             // Креирање DTO објекта за корисника
-            UserDto userDto = new UserDto(
-                    korisnik.getId(),
-                    korisnik.getEmail(),
-                    korisnik.getIme(),
-                    uloge,
-                    korisnik.getPretplatnikId()
-            );
+            BaKorisnikDto userDto = new BaKorisnikDto(
+            	    korisnik.getId(),
+            	    korisnik.getEmail(),
+            	    korisnik.getIme(),
+            	    uloge,
+            	    korisnik.getPretplatnik() != null ? korisnik.getPretplatnik().getId() : null
+            	);
+
 
             // Креирање login одговора
             LoginResponse loginResponse = new LoginResponse(accessToken, refreshToken.getToken(), userDto);

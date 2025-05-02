@@ -4,35 +4,43 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Ентитет који представља организационе јединице претплатника.
+ */
 @Entity
 @Table(name = "ac_organizacije")
 public class AcOrganizacije extends BaseEntity {
 
+    /** Претплатник коме организација припада. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
     @NotNull
-    @Column(name = "pretplatnikId", nullable = false)
-    private Long pretplatnikId;
+    private AbSistemPretplatnici pretplatnik;
 
+    /** Назив организације. */
     @NotNull
     @Size(max = 255)
     @Column(name = "naziv", nullable = false, length = 255)
     private String naziv;
 
+    /** Опис организације. */
     @Size(max = 255)
     @Column(name = "opis", length = 255)
     private String opis;
 
+    /** Да ли је организација активна. */
     @NotNull
     @Column(name = "aktivan", nullable = false)
     private Boolean aktivan = true;
 
-    // Getтери и сеттери
+    // Getери и Setери
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
     public String getNaziv() {
@@ -58,5 +66,4 @@ public class AcOrganizacije extends BaseEntity {
     public void setAktivan(Boolean aktivan) {
         this.aktivan = aktivan;
     }
-
 }

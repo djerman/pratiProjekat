@@ -18,6 +18,10 @@ public abstract class AbstractCrudService<T extends BaseEntity, D> implements Cr
     protected abstract JpaRepository<T, Long> getRepository();
 
     protected abstract rs.prati.service.mapper.EntityMapper<T, D> getMapper();
+    
+    protected void beforeSave(T entity, D dto) {
+        // Опционо за имплементацију у сервисима
+    }
 
     @Override
     public D save(D dto) {

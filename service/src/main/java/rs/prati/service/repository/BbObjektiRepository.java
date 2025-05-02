@@ -11,7 +11,10 @@ import rs.prati.core.model.BbObjekti;
  */
 @Repository
 public interface BbObjektiRepository extends JpaRepository<BbObjekti, Long> {
-    
-	Optional<BbObjekti> findByPretplatnikIdAndOznakaAndIzbrisanFalse(Long pretplatnikId, String oznaka);
 
+    /**
+     * Проналази објекат по претплатнику, ознаци и само ако није избрисан.
+     */
+    Optional<BbObjekti> findByPretplatnik_IdAndOznakaAndIzbrisanFalse(Long pretplatnikId, String oznaka);
 }
+

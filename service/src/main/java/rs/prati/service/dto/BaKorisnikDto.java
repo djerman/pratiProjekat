@@ -6,7 +6,7 @@ import java.util.List;
  * DTO класа која представља корисника након пријаве.
  * Садржи само податке који су потребни UI-ју.
  */
-public class UserDto {
+public class BaKorisnikDto {
 
     private Long id;
     private String email;
@@ -14,9 +14,9 @@ public class UserDto {
     private List<String> uloge;
     private Long pretplatnikId;
 
-    public UserDto() {}
+    public BaKorisnikDto() {}
 
-    public UserDto(Long id, String email, String ime, List<String> uloge, Long pretplatnikId) {
+    public BaKorisnikDto(Long id, String email, String ime, List<String> uloge, Long pretplatnikId) {
         this.id = id;
         this.email = email;
         this.ime = ime;

@@ -12,6 +12,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
 import rs.prati.core.model.AuthRefreshToken;
 import rs.prati.core.model.BaKorisnici;
 import rs.prati.rest.exception.RefreshTokenExpiredException;

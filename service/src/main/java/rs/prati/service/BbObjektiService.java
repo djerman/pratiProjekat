@@ -62,8 +62,8 @@ public class BbObjektiService extends AbstractCrudService<BbObjekti, BbObjektiDt
     @Override
     @Transactional
     public BbObjektiDto save(BbObjektiDto dto) {
-        getRepository()
-            .findByPretplatnikIdAndOznakaAndIzbrisanFalse(dto.getPretplatnikId(), dto.getOznaka())
+    	getRepository()
+        .findByPretplatnik_IdAndOznakaAndIzbrisanFalse(dto.getPretplatnikId(), dto.getOznaka())
             .ifPresent(existing -> {
                 if (dto.getId() == null || !existing.getId().equals(dto.getId())) {
                     throw new IllegalStateException(messageService.getMessage("error.objekat.exists"));

@@ -1,7 +1,7 @@
 package rs.prati.service;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import rs.prati.core.model.AcOrganizacije;
 import rs.prati.service.common.AbstractCrudService;
 import rs.prati.service.dto.AcOrganizacijeDto;
@@ -9,45 +9,36 @@ import rs.prati.service.mapper.AcOrganizacijeMapper;
 import rs.prati.service.repository.AcOrganizacijeRepository;
 
 /**
- * Сервис класа за управљање ентитетом AcOrganizacije.
- * Наслеђује основне CRUD методе из AbstractCrudService.
+ * Сервис класа за рад са ентитетом AcOrganizacije.
+ * Наслеђује апстрактни CRUD сервис и обезбеђује приступ подацима организација.
  */
 @Service
-@Transactional
 public class AcOrganizacijeService extends AbstractCrudService<AcOrganizacije, AcOrganizacijeDto> {
 
-    /** Репозиторијум за приступ ентитету AcOrganizacije. */
     private final AcOrganizacijeRepository repository;
-
-    /** MapStruct мапер за конверзију између ентитета и DTO-а. */
     private final AcOrganizacijeMapper mapper;
 
     /**
-     * Конструктор који иницијализује репозиторијум и мапер.
+     * Конструктор са зависностима.
      *
-     * @param repository репозиторијум за AcOrganizacije
-     * @param mapper мапер за AcOrganizacije
+     * @param repository репозиторијум за организације
+     * @param mapper     MapStruct мапер за конверзију
      */
-    public AcOrganizacijeService(AcOrganizacijeRepository repository, AcOrganizacijeMapper mapper) {
+    public AcOrganizacijeService(
+            AcOrganizacijeRepository repository,
+            AcOrganizacijeMapper mapper
+    ) {
         this.repository = repository;
         this.mapper = mapper;
     }
 
-    /**
-     * Враћа репозиторијум за AcOrganizacije.
-     *
-     * @return репозиторијум
-     */
+    /** Враћа JPA репозиторијум. */
     @Override
-    protected AcOrganizacijeRepository getRepository() {
+    protected JpaRepository<AcOrganizacije, Long> getRepository() {
         return repository;
     }
 
-    /**
-     * Враћа мапер за AcOrganizacije.
-     *
-     * @return мапер
-     */
+    /** Враћа MapStruct мапер. */
     @Override
     protected AcOrganizacijeMapper getMapper() {
         return mapper;

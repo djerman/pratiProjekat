@@ -3,118 +3,93 @@ package rs.prati.core.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља СИМ картицу.
+ */
 @Entity
 @Table(name = "bd_sim")
-public class BdSim {
+public class BdSim extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    // Веза ка претплатнику
+    @ManyToOne
+    @JoinColumn(name = "pretplatnikId")
+    private AbSistemPretplatnici pretplatnik;
 
-    @Version
+    // Веза ка организацији
+    @ManyToOne
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
+
+    // Веза ка мобилном оператеру
+    @ManyToOne
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @JoinColumn(name = "operaterId", nullable = false)
+    private AfSistemOperateri operater;
 
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    // Веза ка уређају (опционо)
+    @ManyToOne
+    @JoinColumn(name = "uredjajId")
+    private BcUredjaji uredjaj;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
-    @NotNull
-    @Column(name = "operaterId")
-    private Long operaterId;
-
-    @Column(name = "uredjajId")
-    private Long uredjajId;
-
+    // ICCID број картице
     @NotNull
     @Size(max = 100)
-    @Column(name = "iccid")
+    @Column(name = "iccid", nullable = false, length = 100)
     private String iccid;
 
+    // Број телефона
     @NotNull
     @Size(max = 30)
-    @Column(name = "broj")
+    @Column(name = "broj", nullable = false, length = 30)
     private String broj;
 
+    // Да ли је картица заузета
     @NotNull
-    @Column(name = "zauzet")
+    @Column(name = "zauzet", nullable = false)
     private Boolean zauzet;
 
+    // Да ли је активна
     @NotNull
-    @Column(name = "aktivan")
+    @Column(name = "aktivan", nullable = false)
     private Boolean aktivan;
 
+    // Опис или белешка
     @Column(name = "opis")
     private String opis;
 
-    @Column(name = "kreirano", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime kreirano;
+    // Гетери и сетери
 
-    @Column(name = "izmenjeno")
-    @UpdateTimestamp
-    private LocalDateTime izmenjeno;
-
-    @NotNull
-    @Column(name = "izbrisan")
-    private Boolean izbrisan;
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public AfSistemOperateri getOperater() {
+        return operater;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setOperater(AfSistemOperateri operater) {
+        this.operater = operater;
     }
 
-    public Long getOrganizacijaId() {
-        return organizacijaId;
+    public BcUredjaji getUredjaj() {
+        return uredjaj;
     }
 
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getOperaterId() {
-        return operaterId;
-    }
-
-    public void setOperaterId(Long operaterId) {
-        this.operaterId = operaterId;
-    }
-
-    public Long getUredjajId() {
-        return uredjajId;
-    }
-
-    public void setUredjajId(Long uredjajId) {
-        this.uredjajId = uredjajId;
+    public void setUredjaj(BcUredjaji uredjaj) {
+        this.uredjaj = uredjaj;
     }
 
     public String getIccid() {
@@ -155,29 +130,5 @@ public class BdSim {
 
     public void setOpis(String opis) {
         this.opis = opis;
-    }
-
-    public LocalDateTime getKreirano() {
-        return kreirano;
-    }
-
-    public void setKreirano(LocalDateTime kreirano) {
-        this.kreirano = kreirano;
-    }
-
-    public LocalDateTime getIzmenjeno() {
-        return izmenjeno;
-    }
-
-    public void setIzmenjeno(LocalDateTime izmenjeno) {
-        this.izmenjeno = izmenjeno;
-    }
-
-    public Boolean getIzbrisan() {
-        return izbrisan;
-    }
-
-    public void setIzbrisan(Boolean izbrisan) {
-        this.izbrisan = izbrisan;
     }
 }

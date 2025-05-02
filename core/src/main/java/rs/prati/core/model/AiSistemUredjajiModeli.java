@@ -1,8 +1,6 @@
 package rs.prati.core.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -13,10 +11,11 @@ import jakarta.validation.constraints.Size;
 @Table(name = "ai_sistemUredjajiModeli")
 public class AiSistemUredjajiModeli extends BaseEntity {
 
-    /** Идентификатор произвођача. */
+    /** Произвођач уређаја. */
     @NotNull
-    @Column(name = "proizvodjacId")
-    private Long proizvodjacId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proizvodjacId", nullable = false)
+    private AhSistemUredjajiProizvodjac proizvodjac;
 
     /** Назив модела уређаја. */
     @NotNull
@@ -43,12 +42,14 @@ public class AiSistemUredjajiModeli extends BaseEntity {
     @Column(name = "obracun")
     private Boolean obracun;
 
-    public Long getProizvodjacId() {
-        return proizvodjacId;
+    // --- Getери и Setери ---
+
+    public AhSistemUredjajiProizvodjac getProizvodjac() {
+        return proizvodjac;
     }
 
-    public void setProizvodjacId(Long proizvodjacId) {
-        this.proizvodjacId = proizvodjacId;
+    public void setProizvodjac(AhSistemUredjajiProizvodjac proizvodjac) {
+        this.proizvodjac = proizvodjac;
     }
 
     public String getNaziv() {

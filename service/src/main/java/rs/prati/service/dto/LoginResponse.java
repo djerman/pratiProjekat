@@ -8,11 +8,11 @@ public class LoginResponse {
 
     private String accessToken;
     private String refreshToken;
-    private UserDto user;
+    private BaKorisnikDto user;
 
     public LoginResponse() {}
 
-    public LoginResponse(String accessToken, String refreshToken, UserDto user) {
+    public LoginResponse(String accessToken, String refreshToken, BaKorisnikDto user) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.user = user;
@@ -26,8 +26,8 @@ public class LoginResponse {
 
     public void setRefreshToken(String refreshToken) { this.refreshToken = refreshToken; }
 
-    public UserDto getUser() { return user; }
+    public BaKorisnikDto getUser() { return user; }
 
-    public void setUser(UserDto user) { this.user = user; }
+    public void setUser(BaKorisnikDto user) { this.user = user; }
 }
 

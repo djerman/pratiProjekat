@@ -66,4 +66,14 @@ public class BaKorisniciService extends AbstractCrudService<BaKorisnici, BaKoris
         return repository.findByEmail(email)
                 .map(mapper::toDto);
     }
+    
+    /**
+     * Проналази корисника по е-пошти ако му је приступ још увек активан
+     * и ако има бар једну активну улогу (систем, админ или корисник).
+     */
+    @Transactional(readOnly = true)
+    public Optional<BaKorisnici> findValidUserByEmail(String email) {
+        return repository.findValidUserByEmail(email);
+    }
+
 }

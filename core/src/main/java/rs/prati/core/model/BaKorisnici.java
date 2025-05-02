@@ -1,15 +1,13 @@
 package rs.prati.core.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
- * Ентитет који представља кориснике система.
+ * Ентитет који представља кориснике у систему.
  */
 @Entity
 @Table(name = "ba_korisnici")
@@ -27,40 +25,40 @@ public class BaKorisnici extends BaseEntity {
     @Column(name = "prezime")
     private String prezime;
 
-    /** Да ли је означен као корисник. */
+    /** Да ли је корисник обичан корисник. */
     @NotNull
     @Column(name = "korisnik", columnDefinition = "TINYINT(1)")
     private Boolean korisnik;
 
-    /** Емаил адреса корисника. */
+    /** Емаил адреса. */
     @NotNull
     @Size(max = 100)
     @Email
     @Column(name = "email")
     private String email;
 
-    /** Лозинка корисника. */
+    /** Лозинка. */
     @NotNull
     @Size(max = 255)
     @Column(name = "lozinka")
     private String lozinka;
 
-    /** Телефон корисника. */
+    /** Телефон. */
     @Size(max = 30)
     @Column(name = "telefon")
     private String telefon;
 
-    /** Мобилни телефон корисника. */
+    /** Мобилни. */
     @Size(max = 30)
     @Column(name = "mobilni")
     private String mobilni;
 
-    /** iButton идентификатор. */
+    /** iButton ID. */
     @Size(max = 50)
     @Column(name = "ibutton")
     private String ibutton;
 
-    /** Да ли је корисник возач. */
+    /** Да ли је возач. */
     @NotNull
     @Column(name = "vozac", columnDefinition = "TINYINT(1)")
     private Boolean vozac;
@@ -75,29 +73,32 @@ public class BaKorisnici extends BaseEntity {
     @Column(name = "sistem", columnDefinition = "TINYINT(1)")
     private Boolean sistem;
 
-    /** Да ли је корисник активан. */
+    /** Да ли је налог активан. */
     @NotNull
     @Column(name = "aktivan", columnDefinition = "TINYINT(1)")
     private Boolean aktivan;
 
-    /** Време до када је налог активан. */
-    @Column(name = "aktivan_do")
+    /** Датум до ког је налог активан. */
+    @Column(name = "aktivanDo")
     private LocalDateTime aktivanDo;
 
-    /** Идентификатор претплатника (FK). */
-    @Column(name = "pretplatnik_id")
-    private Long pretplatnikId;
+    /** Повезан претплатник. */
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    /** Идентификатор организације (FK). */
-    @Column(name = "organizacija_id")
-    private Long organizacijaId;
+    /** Повезана организација (опционо). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
-    /** URL до слике профила. */
+    /** URL до слике. */
     @Size(max = 255)
-    @Column(name = "slika_url")
+    @Column(name = "slikaUrl")
     private String slikaUrl;
 
-    // --- Getери и Setтери ---
+    // --- Getери и Setери ---
 
     public String getIme() {
         return ime;
@@ -203,20 +204,20 @@ public class BaKorisnici extends BaseEntity {
         this.aktivanDo = aktivanDo;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Long getOrganizacijaId() {
-        return organizacijaId;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
     public String getSlikaUrl() {
