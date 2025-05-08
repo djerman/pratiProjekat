@@ -1,89 +1,76 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Партнери претплатника система.
+ * DTO за ентитет BgPartneri – представља податке о партнерима претплатника.
  */
-@Entity
-@Table(name = "bg_partneri")
-public class BgPartneri extends BaseEntity {
+public class BgPartneriDto extends BaseDto {
 
     /**
-     * Претплатник коме припада партнер.
+     * ИД претплатника коме припада партнер.
      */
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pretplatnikId", nullable = false)
-    private AbSistemPretplatnici pretplatnik;
+    private Long pretplatnikId;
 
     /**
      * Назив партнера.
      */
     @NotNull
     @Size(max = 45)
-    @Column(name = "naziv")
     private String naziv;
 
     /**
      * ПИБ партнера.
      */
     @NotNull
-    @Column(name = "pib")
     private Integer pib;
 
     /**
      * Матични број.
      */
     @Size(max = 45)
-    @Column(name = "mb")
     private String mb;
 
     /**
      * Адреса.
      */
     @Size(max = 45)
-    @Column(name = "adresa")
     private String adresa;
 
     /**
      * Телефон.
      */
     @Size(max = 45)
-    @Column(name = "telefon")
     private String telefon;
 
     /**
      * Мобилни телефон.
      */
     @Size(max = 45)
-    @Column(name = "mobilni")
     private String mobilni;
 
     /**
      * Е-пошта.
      */
     @Size(max = 45)
-    @Column(name = "eposta")
     private String eposta;
 
     /**
      * Контакт особа.
      */
     @Size(max = 45)
-    @Column(name = "kontaktOsoba")
     private String kontaktOsoba;
 
     // --- Гетери и сетери ---
 
-    public AbSistemPretplatnici getPretplatnik() {
-        return pretplatnik;
+    public Long getPretplatnikId() {
+        return pretplatnikId;
     }
 
-    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
-        this.pretplatnik = pretplatnik;
+    public void setPretplatnikId(Long pretplatnikId) {
+        this.pretplatnikId = pretplatnikId;
     }
 
     public String getNaziv() {

@@ -2,94 +2,97 @@ package rs.prati.core.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+
+/**
+ * Веза између објеката и група у оквиру одређеног претплатника и организације.
+ */
 @Entity
 @Table(name = "cb_grupeObjekti")
-public class CbGrupeObjekti {
+public class CbGrupeObjekti extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+    /**
+     * Претплатник коме припада ова веза.
+     */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gopretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
+    /**
+     * Организација у оквиру претплатника (може бити null).
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "goorganizacijaId")
+    private AcOrganizacije organizacija;
+
+    /**
+     * Група објеката.
+     */
     @NotNull
-    @Column(name = "gopretplatnikId")
-    private Long gopretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gogrupaId", nullable = false)
+    private BeGrupe grupa;
 
-    @Column(name = "goorganizacijaId")
-    private Long goorganizacijaId;
-
+    /**
+     * Објекат који припада групи.
+     */
     @NotNull
-    @Column(name = "gogrupaId")
-    private Long gogrupaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "goobjekatId", nullable = false)
+    private BbObjekti objekat;
 
+    /**
+     * Време креирања записа.
+     */
     @NotNull
-    @Column(name = "goobjekatId")
-    private Long goobjekatId;
-
-    @Column(name = "kreirano", updatable = false)
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /**
+     * Време последње измене записа.
+     */
+    @NotNull
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    // Getters and Setters
+    // --- Гетери и сетери ---
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getGopretplatnikId() {
-        return gopretplatnikId;
+    public BeGrupe getGrupa() {
+        return grupa;
     }
 
-    public void setGopretplatnikId(Long gopretplatnikId) {
-        this.gopretplatnikId = gopretplatnikId;
+    public void setGrupa(BeGrupe grupa) {
+        this.grupa = grupa;
     }
 
-    public Long getGoorganizacijaId() {
-        return goorganizacijaId;
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setGoorganizacijaId(Long goorganizacijaId) {
-        this.goorganizacijaId = goorganizacijaId;
-    }
-
-    public Long getGogrupaId() {
-        return gogrupaId;
-    }
-
-    public void setGogrupaId(Long gogrupaId) {
-        this.gogrupaId = gogrupaId;
-    }
-
-    public Long getGoobjekatId() {
-        return goobjekatId;
-    }
-
-    public void setGoobjekatId(Long goobjekatId) {
-        this.goobjekatId = goobjekatId;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
     public LocalDateTime getKreirano() {

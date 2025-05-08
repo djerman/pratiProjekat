@@ -1,90 +1,77 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 /**
- * Ентитет који представља дефинисану гео-зону за надгледање у систему.
+ * DTO објекат за ентитет BfZone.
  */
-@Entity
-@Table(name = "bf_zone")
-public class BfZone extends BaseEntity {
+public class BfZoneDto extends BaseDto {
 
     /**
-     * Претплатник коме зона припада.
+     * ИД претплатника коме зона припада.
      */
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pretplatnikId", nullable = false)
-    private AbSistemPretplatnici pretplatnik;
+    private Long pretplatnikId;
 
     /**
-     * Организација која је дефинисала зону (опционално).
+     * ИД организације која је дефинисала зону (опционо).
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organizacijaId")
-    private AcOrganizacije organizacija;
+    private Long organizacijaId;
 
     /**
      * Назив зоне.
      */
     @NotNull
     @Size(max = 45)
-    @Column(name = "naziv")
     private String naziv;
 
     /**
      * Географска дужина центра зоне.
      */
     @NotNull
-    @Column(name = "lon")
     private Double lon;
 
     /**
      * Географска ширина центра зоне.
      */
     @NotNull
-    @Column(name = "lat")
     private Double lat;
 
     /**
      * Полупречник зоне у метрима.
      */
     @NotNull
-    @Column(name = "precnik")
     private Integer precnik;
 
     /**
-     * Опис зоне (опционално).
+     * Опис зоне (опционо).
      */
     @Size(max = 45)
-    @Column(name = "opis")
     private String opis;
 
     /**
      * Статус активности зоне.
      */
     @NotNull
-    @Column(name = "aktivan")
     private Boolean aktivan;
 
     // Гетери и сетери
 
-    public AbSistemPretplatnici getPretplatnik() {
-        return pretplatnik;
+    public Long getPretplatnikId() {
+        return pretplatnikId;
     }
 
-    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
-        this.pretplatnik = pretplatnik;
+    public void setPretplatnikId(Long pretplatnikId) {
+        this.pretplatnikId = pretplatnikId;
     }
 
-    public AcOrganizacije getOrganizacija() {
-        return organizacija;
+    public Long getOrganizacijaId() {
+        return organizacijaId;
     }
 
-    public void setOrganizacija(AcOrganizacije organizacija) {
-        this.organizacija = organizacija;
+    public void setOrganizacijaId(Long organizacijaId) {
+        this.organizacijaId = organizacijaId;
     }
 
     public String getNaziv() {

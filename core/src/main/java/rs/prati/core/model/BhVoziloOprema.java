@@ -3,73 +3,45 @@ package rs.prati.core.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Опис опреме која може бити придружена возилима у власништву претплатника.
+ */
 @Entity
 @Table(name = "bh_voziloOprema")
-public class BhVoziloOprema {
+public class BhVoziloOprema extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /**
+     * Претплатник коме припада ова опрема.
+     */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
-
+    /**
+     * Назив опреме.
+     */
     @NotNull
     @Size(max = 45)
     @Column(name = "naziv")
     private String naziv;
 
+    /**
+     * Опис опреме.
+     */
     @Size(max = 45)
     @Column(name = "opis")
     private String opis;
 
-    @Column(name = "kreirano", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime kreirano;
+    // --- Гетери и сетери ---
 
-    @Column(name = "izmenjeno")
-    @UpdateTimestamp
-    private LocalDateTime izmenjeno;
-
-    @NotNull
-    @Column(name = "izbrisan")
-    private Boolean izbrisan;
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Long getPretplatnikId() {
-        return pretplatnikId;
-    }
-
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
     public String getNaziv() {
@@ -86,29 +58,5 @@ public class BhVoziloOprema {
 
     public void setOpis(String opis) {
         this.opis = opis;
-    }
-
-    public LocalDateTime getKreirano() {
-        return kreirano;
-    }
-
-    public void setKreirano(LocalDateTime kreirano) {
-        this.kreirano = kreirano;
-    }
-
-    public LocalDateTime getIzmenjeno() {
-        return izmenjeno;
-    }
-
-    public void setIzmenjeno(LocalDateTime izmenjeno) {
-        this.izmenjeno = izmenjeno;
-    }
-
-    public Boolean getIzbrisan() {
-        return izbrisan;
-    }
-
-    public void setIzbrisan(Boolean izbrisan) {
-        this.izbrisan = izbrisan;
     }
 }

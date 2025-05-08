@@ -2,82 +2,97 @@ package rs.prati.core.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+
+/**
+ * Повезује кориснике са групама возила у оквиру претплатника и организације.
+ */
 @Entity
 @Table(name = "ca_grupeKorisnici")
-public class CaGrupeKorisnici {
+public class CaGrupeKorisnici extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+    /**
+     * Претплатник коме припада ова веза.
+     */
     @NotNull
-    @Column(name = "gkpretplatnikId")
-    private Long gkpretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gkpretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @Column(name = "gkorganizacijaId")
-    private Long gkorganizacijaId;
+    /**
+     * Организација у оквиру претплатника (може бити null).
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gkorganizacijaId")
+    private AcOrganizacije organizacija;
 
+    /**
+     * Група возила којој корисник припада.
+     */
     @NotNull
-    @Column(name = "gkgrupaId")
-    private Long gkgrupaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gkgrupaId", nullable = false)
+    private BeGrupe grupa;
 
+    /**
+     * Корисник који је придружен групи.
+     */
     @NotNull
-    @Column(name = "gkkorisnikId")
-    private Long gkkorisnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gkkorisnikId", nullable = false)
+    private BaKorisnici korisnik;
 
-    @Column(name = "kreirano", updatable = false)
+    /**
+     * Време креирања записа.
+     */
+    @NotNull
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /**
+     * Време последње измене.
+     */
+    @NotNull
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    // Getters and Setters
+    // --- Гетери и сетери ---
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Long getGkpretplatnikId() {
-        return gkpretplatnikId;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setGkpretplatnikId(Long gkpretplatnikId) {
-        this.gkpretplatnikId = gkpretplatnikId;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getGkorganizacijaId() {
-        return gkorganizacijaId;
+    public BeGrupe getGrupa() {
+        return grupa;
     }
 
-    public void setGkorganizacijaId(Long gkorganizacijaId) {
-        this.gkorganizacijaId = gkorganizacijaId;
+    public void setGrupa(BeGrupe grupa) {
+        this.grupa = grupa;
     }
 
-    public Long getGkgrupaId() {
-        return gkgrupaId;
+    public BaKorisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setGkgrupaId(Long gkgrupaId) {
-        this.gkgrupaId = gkgrupaId;
-    }
-
-    public Long getGkkorisnikId() {
-        return gkkorisnikId;
-    }
-
-    public void setGkkorisnikId(Long gkkorisnikId) {
-        this.gkkorisnikId = gkkorisnikId;
+    public void setKorisnik(BaKorisnici korisnik) {
+        this.korisnik = korisnik;
     }
 
     public LocalDateTime getKreirano() {
