@@ -1,191 +1,128 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 /**
- * Ентитет који представља возило у систему.
+ * DTO за ентитет CjVozilo.
+ * Представља основне податке о возилу.
  */
-@Entity
-@Table(name = "cj_vozilo")
-public class CjVozilo extends BaseEntity {
+public class CjVoziloDto extends BaseDto {
 
-    /** Веза ка претплатнику */
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pretplatnikId", nullable = false)
-    private AbSistemPretplatnici pretplatnik;
+    /** ID претплатника */
+    private Long pretplatnikId;
 
-    /** Веза ка организацији */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "organizacijaId")
-    private AcOrganizacije organizacija;
+    /** ID организације */
+    private Long organizacijaId;
 
-    /** Веза ка објекту (уређају у возилу) */
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "objekatId", nullable = false)
-    private BbObjekti objekat;
+    /** ID објекта (уређаја у возилу) */
+    private Long objekatId;
 
     /** Регистрација возила */
-    @NotNull
-    @Size(max = 45)
-    @Column(name = "registracija", length = 45, nullable = false)
     private String registracija;
 
     /** Марка возила */
-    @NotNull
-    @Size(max = 45)
-    @Column(name = "marka", length = 45, nullable = false)
     private String marka;
 
     /** Модел возила */
-    @NotNull
-    @Size(max = 45)
-    @Column(name = "model", length = 45, nullable = false)
     private String model;
 
     /** Тип возила */
-    @Size(max = 45)
-    @Column(name = "tip", length = 45)
     private String tip;
 
     /** Година производње */
-    @NotNull
-    @Column(name = "godina", nullable = false)
     private Integer godina;
 
-    /** Тип горива (ID везаног ентитета ако постоји) */
-    @Column(name = "gorivo")
+    /** ID типа горива */
     private Long gorivo;
 
     /** Запремина резервоара */
-    @Column(name = "rezervoar")
     private Integer rezervoar;
 
     /** Просечна потрошња */
-    @Column(name = "potrosnja")
     private Float potrosnja;
 
     /** Да ли је теретно возило */
-    @NotNull
-    @Column(name = "teretno", nullable = false)
     private Boolean teretno;
 
     /** Број саобраћајне дозволе */
-    @Size(max = 45)
-    @Column(name = "brojSaobracajne", length = 45)
     private String brojSaobracajne;
 
-    /** Саобраћајна дозвола (ID документа ако постоји) */
-    @Column(name = "saobracajnaId")
+    /** ID саобраћајне дозволе (документа) */
     private Long saobracajnaId;
 
     /** Серијски број шасије/уређаја */
-    @Size(max = 45)
-    @Column(name = "serijskiBroj", length = 45)
     private String serijskiBroj;
 
     /** Датум регистрације */
-    @Column(name = "datumRegistracije")
     private LocalDate datumRegistracije;
 
     /** Интервал малог сервиса (km) */
-    @NotNull
-    @Column(name = "maliServisKm", nullable = false)
     private Integer maliServisKm;
 
     /** Интервал малог сервиса (месеци) */
-    @NotNull
-    @Column(name = "maliServisMeseci", nullable = false)
     private Integer maliServisMeseci;
 
     /** Интервал великог сервиса (km) */
-    @NotNull
-    @Column(name = "velikiServisKm", nullable = false)
     private Integer velikiServisKm;
 
     /** Интервал великог сервиса (месеци) */
-    @NotNull
-    @Column(name = "velikiServisMeseci", nullable = false)
     private Integer velikiServisMeseci;
 
     /** Датум последње регистрације */
-    @Column(name = "datumPoslednjeRegistracije")
     private LocalDate datumPoslednjeRegistracije;
 
     /** Датум последњег малог сервиса */
-    @Column(name = "maliPoslednjiDatum")
     private LocalDate maliPoslednjiDatum;
 
     /** Километража малог сервиса (GPS) */
-    @NotNull
-    @Column(name = "maliPoslednjiGPSkm", nullable = false)
     private Float maliPoslednjiGPSkm;
 
     /** Километража малог сервиса (OBD) */
-    @NotNull
-    @Column(name = "maliPoslednjiOBDkm", nullable = false)
     private Integer maliPoslednjiOBDkm;
 
     /** Датум последњег великог сервиса */
-    @Column(name = "velikiPoslednjiDatum")
     private LocalDate velikiPoslednjiDatum;
 
     /** Километража великог сервиса (GPS) */
-    @NotNull
-    @Column(name = "velikiPoslednjiGPSkm", nullable = false)
     private Float velikiPoslednjiGPSkm;
 
     /** Километража великог сервиса (OBD) */
-    @NotNull
-    @Column(name = "velikiPoslednjiOBDkm", nullable = false)
     private Integer velikiPoslednjiOBDkm;
 
     /** Да ли је запис означен као обрисан */
-    @NotNull
-    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
     /** Датум и време креирања */
-    @CreationTimestamp
-    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
     /** Датум и време последње измене */
-    @UpdateTimestamp
-    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    // Гетери и сетери (у више линија, не у једној!)
+    // ГЕТЕРИ И СЕТЕРИ
 
-    public AbSistemPretplatnici getPretplatnik() {
-        return pretplatnik;
+    public Long getPretplatnikId() {
+        return pretplatnikId;
     }
 
-    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
-        this.pretplatnik = pretplatnik;
+    public void setPretplatnikId(Long pretplatnikId) {
+        this.pretplatnikId = pretplatnikId;
     }
 
-    public AcOrganizacije getOrganizacija() {
-        return organizacija;
+    public Long getOrganizacijaId() {
+        return organizacijaId;
     }
 
-    public void setOrganizacija(AcOrganizacije organizacija) {
-        this.organizacija = organizacija;
+    public void setOrganizacijaId(Long organizacijaId) {
+        this.organizacijaId = organizacijaId;
     }
 
-    public BbObjekti getObjekat() {
-        return objekat;
+    public Long getObjekatId() {
+        return objekatId;
     }
 
-    public void setObjekat(BbObjekti objekat) {
-        this.objekat = objekat;
+    public void setObjekatId(Long objekatId) {
+        this.objekatId = objekatId;
     }
 
     public String getRegistracija() {

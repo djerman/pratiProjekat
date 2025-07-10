@@ -2,119 +2,109 @@ package rs.prati.core.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+
+/**
+ * Ентитет који представља везу између корисника и аларма.
+ * Дефинише начин обавештавања (е‑маил, интерно) и статус.
+ */
 @Entity
 @Table(name = "cc_alarmiKorisnik")
-public class CcAlarmiKorisnik {
+public class CcAlarmiKorisnik extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    /** Претплатник коме овај податак припада */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @Version
+    /** Организација (ако постоји) у оквиру претплатника */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
+
+    /** Корисник на кога се односи аларм */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "korisnikId", nullable = false)
+    private BaKorisnici korisnik;
+
+    /** Објекат на који се односи аларм */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objekatId", nullable = false)
+    private BbObjekti objekat;
+
+    /** Аларм који је повезан са корисником */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "alarmId", nullable = false)
+    private AdSistemAlarmi alarm;
+
+    /** Да ли се корисник обавештава путем е‑маила */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
-
-    @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
-
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
-    @NotNull
-    @Column(name = "korisnikId")
-    private Long korisnikId;
-
-    @NotNull
-    @Column(name = "objekatId")
-    private Long objekatId;
-
-    @NotNull
-    @Column(name = "alarmId")
-    private Long alarmId;
-
-    @NotNull
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private Boolean email;
 
+    /** Да ли се приказује интерно обавештење у систему */
     @NotNull
-    @Column(name = "obavestenje")
+    @Column(name = "obavestenje", nullable = false)
     private Boolean obavestenje;
 
+    /** Да ли је веза активна */
     @NotNull
-    @Column(name = "aktivan")
+    @Column(name = "aktivan", nullable = false)
     private Boolean aktivan;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања записа (аутоматски) */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време последње измене записа (аутоматски) */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    // Getters and Setters
+    // ГЕТЕРИ И СЕТЕРИ
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public BaKorisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setKorisnik(BaKorisnici korisnik) {
+        this.korisnik = korisnik;
     }
 
-    public Long getOrganizacijaId() {
-        return organizacijaId;
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
-    public Long getKorisnikId() {
-        return korisnikId;
+    public AdSistemAlarmi getAlarm() {
+        return alarm;
     }
 
-    public void setKorisnikId(Long korisnikId) {
-        this.korisnikId = korisnikId;
-    }
-
-    public Long getObjekatId() {
-        return objekatId;
-    }
-
-    public void setObjekatId(Long objekatId) {
-        this.objekatId = objekatId;
-    }
-
-    public Long getAlarmId() {
-        return alarmId;
-    }
-
-    public void setAlarmId(Long alarmId) {
-        this.alarmId = alarmId;
+    public void setAlarm(AdSistemAlarmi alarm) {
+        this.alarm = alarm;
     }
 
     public Boolean getEmail() {

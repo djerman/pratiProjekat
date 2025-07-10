@@ -1,86 +1,69 @@
-package rs.prati.core.model;
+package rs.prati.service.dto;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
- * Ентитет који садржи последње познато јављање сваког објекта.
- * Користи се за приказ у реалном времену (последња позиција).
+ * DTO за ентитет CfJavljanjaPoslednja.
+ * Представља последње познато јављање сваког објекта.
  */
-@Entity
-@Table(name = "cf_javljanjaPoslednja")
-public class CfJavljanjaPoslednja extends BaseEntity {
+public class CfJavljanjaPoslednjaDto extends BaseDto {
 
-    /** Објекат (уређај, возило) на који се јављање односи */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "objekatId", nullable = false)
-    private BbObjekti objekat;
+    /** ID објекта (уређаја или возила) */
+    private Long objekatId;
 
     /** Датум и време последњег јављања */
-    @Column(name = "datumVreme")
     private LocalDateTime datumVreme;
 
     /** Географска дужина */
-    @Column(name = "lon")
     private Double lon;
 
     /** Географска ширина */
-    @Column(name = "lat")
     private Double lat;
 
     /** Правaц кретања */
-    @Column(name = "pravac")
     private Float pravac;
 
     /** Надморска висина */
-    @Column(name = "visina")
     private Float visina;
 
     /** Брзина у km/h */
-    @Column(name = "brzina")
     private Integer brzina;
 
-    /** Активни аларм у моменту јављања (ако постоји) */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "alarmId")
-    private AdSistemAlarmi alarm;
+    /** ID аларма у моменту јављања (ако постоји) */
+    private Long alarmId;
 
     /** Виртуелна километража */
-    @Column(name = "virtualOdo")
     private Float virtualOdo;
 
-    /** Додатни подаци (JSON, опис догађаја итд.) */
-    @Size(max = 255)
-    @Column(name = "eventData", length = 255)
+    /** Додатни подаци о догађају (JSON, опис итд.) */
     private String eventData;
 
-    /** ИД зоне у којој се налази уређај */
-    @Column(name = "zona")
+    /** Зона у којој се уређај налази */
     private Long zona;
 
-    /** Корисник који је повезан са јављањем (нпр. возач) */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "korisnikId")
-    private BaKorisnici korisnik;
+    /** ID корисника повезаног са јављањем */
+    private Long korisnikId;
 
     /** Статус контакта */
-    @Column(name = "kontakt")
     private Boolean kontakt;
 
-    /** iButton вредност за идентификацију возача */
-    @Size(max = 100)
-    @Column(name = "ibutton", length = 100)
+    /** iButton вредност (идентификација возача) */
     private String ibutton;
+
+    /** Датум и време креирања */
+    private LocalDateTime kreirano;
+
+    /** Датум и време последње измене */
+    private LocalDateTime izmenjeno;
 
     // ГЕТЕРИ И СЕТЕРИ
 
-    public BbObjekti getObjekat() {
-        return objekat;
+    public Long getObjekatId() {
+        return objekatId;
     }
 
-    public void setObjekat(BbObjekti objekat) {
-        this.objekat = objekat;
+    public void setObjekatId(Long objekatId) {
+        this.objekatId = objekatId;
     }
 
     public LocalDateTime getDatumVreme() {
@@ -131,12 +114,12 @@ public class CfJavljanjaPoslednja extends BaseEntity {
         this.brzina = brzina;
     }
 
-    public AdSistemAlarmi getAlarm() {
-        return alarm;
+    public Long getAlarmId() {
+        return alarmId;
     }
 
-    public void setAlarm(AdSistemAlarmi alarm) {
-        this.alarm = alarm;
+    public void setAlarmId(Long alarmId) {
+        this.alarmId = alarmId;
     }
 
     public Float getVirtualOdo() {
@@ -163,12 +146,12 @@ public class CfJavljanjaPoslednja extends BaseEntity {
         this.zona = zona;
     }
 
-    public BaKorisnici getKorisnik() {
-        return korisnik;
+    public Long getKorisnikId() {
+        return korisnikId;
     }
 
-    public void setKorisnik(BaKorisnici korisnik) {
-        this.korisnik = korisnik;
+    public void setKorisnikId(Long korisnikId) {
+        this.korisnikId = korisnikId;
     }
 
     public Boolean getKontakt() {
@@ -185,5 +168,21 @@ public class CfJavljanjaPoslednja extends BaseEntity {
 
     public void setIbutton(String ibutton) {
         this.ibutton = ibutton;
+    }
+
+    public LocalDateTime getKreirano() {
+        return kreirano;
+    }
+
+    public void setKreirano(LocalDateTime kreirano) {
+        this.kreirano = kreirano;
+    }
+
+    public LocalDateTime getIzmenjeno() {
+        return izmenjeno;
+    }
+
+    public void setIzmenjeno(LocalDateTime izmenjeno) {
+        this.izmenjeno = izmenjeno;
     }
 }

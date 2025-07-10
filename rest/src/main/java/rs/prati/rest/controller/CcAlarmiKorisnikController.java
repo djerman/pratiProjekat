@@ -5,23 +5,23 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import rs.prati.service.CbGrupeObjektiService;
+import rs.prati.service.CcAlarmiKorisnikService;
 import rs.prati.service.common.CrudService;
-import rs.prati.service.dto.CbGrupeObjektiDto;
+import rs.prati.service.dto.CcAlarmiKorisnikDto;
 
 import java.util.List;
 
 /**
- * REST контролер за CbGrupeObjekti – повезивање објеката и група.
+ * REST контролер за CcAlarmiKorisnik – повезивање корисника са алармима.
  */
 @RestController
-@RequestMapping("/api/cb-grupe-objekti")
+@RequestMapping("/api/cc-alarmi-korisnik")
 @Hidden
-public class CbGrupeObjektiController extends AbstractCrudController<CbGrupeObjektiDto> {
+public class CcAlarmiKorisnikController extends AbstractCrudController<CcAlarmiKorisnikDto> {
 
-    private final CbGrupeObjektiService service;
+    private final CcAlarmiKorisnikService service;
 
-    public CbGrupeObjektiController(CbGrupeObjektiService service) {
+    public CcAlarmiKorisnikController(CcAlarmiKorisnikService service) {
         this.service = service;
     }
 
@@ -29,9 +29,9 @@ public class CbGrupeObjektiController extends AbstractCrudController<CbGrupeObje
      * Враћа све везе за одређеног претплатника.
      */
     @GetMapping("/pretplatnik/{id}")
-    @Operation(summary = "Све везе за претплатника")
+    @Operation(summary = "Све везе за претплатника", description = "Враћа све активне везе између корисника и аларма за дати ID претплатника.")
     @PreAuthorize("hasRole('ROLE_SISTEM') or hasRole('ROLE_ADMIN')")
-    public List<CbGrupeObjektiDto> findAllForPretplatnik(@PathVariable Long id) {
+    public List<CcAlarmiKorisnikDto> findAllForPretplatnik(@PathVariable Long id) {
         return service.findAllForPretplatnik(id);
     }
 
@@ -39,9 +39,9 @@ public class CbGrupeObjektiController extends AbstractCrudController<CbGrupeObje
      * Чување нове или постојеће везе.
      */
     @PostMapping
-    @Operation(summary = "Чување везе")
+    @Operation(summary = "Чување везе", description = "Креирање или измена повезаности корисника са алармом.")
     @PreAuthorize("hasRole('ROLE_SISTEM') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CbGrupeObjektiDto> save(@RequestBody CbGrupeObjektiDto dto) {
+    public ResponseEntity<CcAlarmiKorisnikDto> save(@RequestBody CcAlarmiKorisnikDto dto) {
         return ResponseEntity.ok(service.save(dto));
     }
 
@@ -49,7 +49,7 @@ public class CbGrupeObjektiController extends AbstractCrudController<CbGrupeObje
      * Тврдо брисање везе по ID-у.
      */
     @DeleteMapping("/{id}")
-    @Operation(summary = "Тврдо брисање")
+    @Operation(summary = "Тврдо брисање", description = "Трајно уклањање везе по задатом ID-у.")
     @PreAuthorize("hasRole('ROLE_SISTEM')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.hardDelete(id);
@@ -60,7 +60,7 @@ public class CbGrupeObjektiController extends AbstractCrudController<CbGrupeObje
      * Меко брисање (означава као обрисано).
      */
     @PatchMapping("/{id}/mark-deleted")
-    @Operation(summary = "Меко брисање")
+    @Operation(summary = "Меко брисање", description = "Означава везу као обрисану без физичког брисања из базе.")
     @PreAuthorize("hasRole('ROLE_SISTEM') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> markDeleted(@PathVariable Long id) {
         service.oznaciIzbrisan(id);
@@ -71,24 +71,21 @@ public class CbGrupeObjektiController extends AbstractCrudController<CbGrupeObje
      * Проналажење везе по ID-у.
      */
     @GetMapping("/{id}")
-    @Operation(summary = "Проналажење по ID-у")
+    @Operation(summary = "Проналажење по ID-у", description = "Враћа податке о вези на основу њеног јединственог ID-а.")
     @PreAuthorize("hasRole('ROLE_SISTEM') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CbGrupeObjektiDto> findById(@PathVariable Long id) {
+    public ResponseEntity<CcAlarmiKorisnikDto> findById(@PathVariable Long id) {
         return service.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     /**
-     * Враћа све везе.
+     * Враћа све активне везе.
      */
     @GetMapping
-    @Operation(summary = "Све везе",
-    	    description = "Враћа све објекте везане за групе у систему.",
-    	    tags = {"CbGrupeObjekti"},
-    	    operationId = "getAllConnections")
+    @Operation(summary = "Све везе", description = "Враћа све активне везе између корисника и аларма.", tags = {"CcAlarmiKorisnik"}, operationId = "getAllLinks")
     @PreAuthorize("hasRole('ROLE_SISTEM') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<CbGrupeObjektiDto>> findAll() {
+    public ResponseEntity<List<CcAlarmiKorisnikDto>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
@@ -96,7 +93,7 @@ public class CbGrupeObjektiController extends AbstractCrudController<CbGrupeObje
      * Повезивање са CrudService-ом.
      */
     @Override
-    protected CrudService<?, CbGrupeObjektiDto> getService() {
+    protected CrudService<?, CcAlarmiKorisnikDto> getService() {
         return service;
     }
 }

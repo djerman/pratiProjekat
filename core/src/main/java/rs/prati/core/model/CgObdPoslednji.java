@@ -7,99 +7,94 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља последњи OBD (On-Board Diagnostics) податак по објекту.
+ */
 @Entity
 @Table(name = "cg_obdPoslednji")
-public class CgObdPoslednji {
+public class CgObdPoslednji extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /** Веза ка објекту (уређају/возилу) */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objekatId", nullable = false)
+    private BbObjekti objekat;
 
-    @NotNull
-    @Column(name = "objekatId")
-    private Long objekatId;
-
+    /** Датум и време узорка */
     @Column(name = "datumVreme")
     private LocalDateTime datumVreme;
 
+    /** Број обртаја у минути (RPM) */
     @Column(name = "rpm")
     private Integer rpm;
 
+    /** Температура мотора у степенима Целзијуса */
     @Column(name = "temperatura")
     private Integer temperatura;
 
+    /** Оптерећење мотора (%) */
     @Column(name = "opterecenje")
     private Float opterecenje;
 
+    /** Положај педале гаса (%) */
     @Column(name = "gas")
     private Float gas;
 
+    /** Ниво горива (%) */
     @Column(name = "nivoGoriva")
     private Float nivoGoriva;
 
+    /** Напон акумулатора */
     @Column(name = "akumulator")
     private Float akumulator;
 
+    /** Пређени километри за текући пут */
     @Column(name = "tripKm")
     private Float tripKm;
 
+    /** Потрошено гориво за текући пут */
     @Column(name = "tripGorivo")
     private Float tripGorivo;
 
+    /** Укупно време рада */
     @Column(name = "ukupnoVreme")
     private Float ukupnoVreme;
 
+    /** Укупно пређени километри */
     @Column(name = "ukupnoKm")
     private Integer ukupnoKm;
 
+    /** Укупно потрошено гориво */
     @Column(name = "ukupnoGorivo")
     private Float ukupnoGorivo;
 
+    /** Просечна потрошња */
     @Column(name = "prosecnaPotrosnja")
     private Float prosecnaPotrosnja;
 
+    /** Кратак опис или кодови грешака (макс 45) */
     @Size(max = 45)
-    @Column(name = "greske")
+    @Column(name = "greske", length = 45)
     private String greske;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања записа */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време последње измене */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    // Getters and Setters
+    // Гетери и сетери
 
-    public Long getId() {
-        return id;
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Long getObjekatId() {
-        return objekatId;
-    }
-
-    public void setObjekatId(Long objekatId) {
-        this.objekatId = objekatId;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
     public LocalDateTime getDatumVreme() {

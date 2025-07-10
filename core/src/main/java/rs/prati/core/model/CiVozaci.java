@@ -8,97 +8,87 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља возаче у систему.
+ */
 @Entity
 @Table(name = "ci_vozaci")
-public class CiVozaci {
+public class CiVozaci extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /** Веза ка претплатнику */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
+    /** Веза ка организацији */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
+
+    /** Веза ка кориснику (лица возача) */
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "korisnikId", nullable = false)
+    private BaKorisnici korisnik;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
-    @NotNull
-    @Column(name = "korisnikId")
-    private Long korisnikId;
-
+    /** ЈМБГ возача */
     @Size(max = 45)
-    @Column(name = "jmbg")
+    @Column(name = "jmbg", length = 45)
     private String jmbg;
 
+    /** Датум запослења */
     @Column(name = "zaposlenOd")
     private LocalDate zaposlenOd;
 
+    /** Датум престанка запослења */
     @Column(name = "zaposlenDo")
     private LocalDate zaposlenDo;
 
+    /** Место пребивалишта */
     @Size(max = 45)
-    @Column(name = "prebivaliste")
+    @Column(name = "prebivaliste", length = 45)
     private String prebivaliste;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време последње измене */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
+    /** Да ли је запис означен као обрисан */
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    // Getters and Setters
+    // Гетери и сетери
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public BaKorisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getKorisnikId() {
-        return korisnikId;
-    }
-
-    public void setKorisnikId(Long korisnikId) {
-        this.korisnikId = korisnikId;
+    public void setKorisnik(BaKorisnici korisnik) {
+        this.korisnik = korisnik;
     }
 
     public String getJmbg() {

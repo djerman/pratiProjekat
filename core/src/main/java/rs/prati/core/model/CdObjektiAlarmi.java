@@ -2,108 +2,102 @@ package rs.prati.core.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
+
+/**
+ * Ентитет који дефинише аларме и ограничења повезане са појединим објектима.
+ * Садржи податке о ограничењу брзине, сервисним интервалима и статусима.
+ */
 @Entity
 @Table(name = "cd_objektiAlarmi")
-public class CdObjektiAlarmi {
+public class CdObjektiAlarmi extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    /** Претплатник коме овај податак припада */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @Version
-    @NotNull
-    @Column(name = "version")
-    private Integer version;
+    /** Организација у оквиру претплатника */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
-    @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    /** Објекат на који се односе аларми */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objekatId")
+    private BbObjekti objekat;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
-    @Column(name = "objekatId")
-    private Long objekatId;
-
+    /** Максимално дозвољено ограничење брзине (у km/h) */
     @Column(name = "ogranicenjeBrzine")
     private Integer ogranicenjeBrzine;
 
+    /** Максимално дозвољено време неактивности (у минутима) */
     @Column(name = "vremeNeaktivnost")
     private Integer vremeNeaktivnost;
 
+    /** Интервал за мали сервис (у данима) */
     @Column(name = "vremeMaliServis")
     private Integer vremeMaliServis;
 
+    /** Интервал за мали сервис (у km) */
     @Column(name = "kmMaliServis")
     private Integer kmMaliServis;
 
+    /** Интервал за велики сервис (у данима) */
     @Column(name = "vremeVelikiServis")
     private Integer vremeVelikiServis;
 
+    /** Интервал за велики сервис (у km) */
     @Column(name = "kmVelikiServis")
     private Integer kmVelikiServis;
 
+    /** Да ли је конфигурација активна */
     @NotNull
-    @Column(name = "aktivan")
+    @Column(name = "aktivan", nullable = false)
     private Boolean aktivan;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања записа */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време последње измене */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
+    /** Да ли је запис означен као обрисан */
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    // Getters and Setters
+    // ГЕТЕРИ И СЕТЕРИ
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getObjekatId() {
-        return objekatId;
-    }
-
-    public void setObjekatId(Long objekatId) {
-        this.objekatId = objekatId;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
     public Integer getOgranicenjeBrzine() {

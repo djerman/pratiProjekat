@@ -1,81 +1,72 @@
-package rs.prati.core.model;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+package rs.prati.service.dto;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "cg_obd")
-public class CgObd extends BaseEntity {
+/**
+ * DTO за ентитет CgObd.
+ * Представља OBD (On-Board Diagnostics) податке возила.
+ */
+public class CgObdDto extends BaseDto {
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "objekatId", nullable = false)
-    private BbObjekti objekat;
+    /** ID објекта (уређаја или возила) */
+    private Long objekatId;
 
-    @Column(name = "datumVreme")
+    /** Датум и време јављања */
     private LocalDateTime datumVreme;
 
-    @Column(name = "rpm")
+    /** Број обртаја у минуту (RPM) */
     private Integer rpm;
 
-    @Column(name = "temperatura")
+    /** Температура мотора (у °C) */
     private Integer temperatura;
 
-    @Column(name = "opterecenje")
+    /** Оптерећење мотора у процентима */
     private Float opterecenje;
 
-    @Column(name = "gas")
+    /** Положај гаса у процентима */
     private Float gas;
 
-    @Column(name = "nivoGoriva")
+    /** Ниво горива у процентима */
     private Float nivoGoriva;
 
-    @Column(name = "akumulator")
+    /** Напон акумулатора у V */
     private Float akumulator;
 
-    @Column(name = "tripKm")
+    /** Пређени километри у овој вожњи */
     private Float tripKm;
 
-    @Column(name = "tripGorivo")
+    /** Потрошено гориво у овој вожњи */
     private Float tripGorivo;
 
-    @Column(name = "ukupnoVreme")
+    /** Укупно време рада мотора (у сатима) */
     private Float ukupnoVreme;
 
-    @Column(name = "ukupnoKm")
+    /** Укупна пређена километража */
     private Integer ukupnoKm;
 
-    @Column(name = "ukupnoGorivo")
+    /** Укупно потрошено гориво */
     private Float ukupnoGorivo;
 
-    @Column(name = "prosecnaPotrosnja")
+    /** Просечна потрошња (npr. l/100km) */
     private Float prosecnaPotrosnja;
 
-    @Size(max = 45)
-    @Column(name = "greske", length = 45)
+    /** Дијагностичке грешке (OBD кодови) */
     private String greske;
 
-    @CreationTimestamp
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања */
     private LocalDateTime kreirano;
 
-    @UpdateTimestamp
-    @Column(name = "izmenjeno")
+    /** Датум и време последње измене */
     private LocalDateTime izmenjeno;
 
-    // --- Getteri i setteri ---
+    // ГЕТЕРИ И СЕТЕРИ
 
-    public BbObjekti getObjekat() {
-        return objekat;
+    public Long getObjekatId() {
+        return objekatId;
     }
 
-    public void setObjekat(BbObjekti objekat) {
-        this.objekat = objekat;
+    public void setObjekatId(Long objekatId) {
+        this.objekatId = objekatId;
     }
 
     public LocalDateTime getDatumVreme() {

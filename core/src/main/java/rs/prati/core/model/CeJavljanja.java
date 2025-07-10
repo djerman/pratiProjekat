@@ -1,114 +1,85 @@
 package rs.prati.core.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља јављања (позиције, аларме, статuse) са возила или уређаја у реалном времену.
+ */
 @Entity
 @Table(name = "ce_javljanja")
-public class CeJavljanja {
+public class CeJavljanja extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    /** Објекат (возило, уређај) који шаље јављање */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objekatId", nullable = false)
+    private BbObjekti objekat;
 
-    @Version
-    @NotNull
-    @Column(name = "version")
-    private Integer version;
-
-    @Column(name = "valid")
-    private Boolean valid;
-
-    @NotNull
-    @Column(name = "objekatId")
-    private Long objekatId;
-
+    /** Датум и време јављања */
     @Column(name = "datumVreme")
     private LocalDateTime datumVreme;
 
+    /** Географска дужина */
     @Column(name = "lon")
     private Double lon;
 
+    /** Географска ширина */
     @Column(name = "lat")
     private Double lat;
 
+    /** Правaц кретања у степенима (0–360) */
     @Column(name = "pravac")
     private Float pravac;
 
+    /** Надморска висина у метрима */
     @Column(name = "visina")
     private Float visina;
 
+    /** Брзина у km/h */
     @Column(name = "brzina")
     private Integer brzina;
 
+    /** Статус контакта (да ли је возило упаљено) */
     @Column(name = "kontakt")
     private Boolean kontakt;
 
-    @Column(name = "alarmId")
-    private Long alarmId;
+    /** Аларм повезан са јављањем (ако постоји) */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "alarmId")
+    private AdSistemAlarmi alarm;
 
+    /** Виртуелна километража */
     @Column(name = "virtualOdo")
     private Float virtualOdo;
 
+    /** Додатни подаци о догађају (JSON, бинарни, текстуални опис итд.) */
     @Size(max = 255)
-    @Column(name = "eventData")
+    @Column(name = "eventData", length = 255)
     private String eventData;
 
+    /** ИД зоне у којој се уређај налази (ако је познато) */
     @Column(name = "zona")
     private Long zona;
 
+    /** iButton вредност за идентификацију возача */
     @Size(max = 100)
-    @Column(name = "ibutton")
+    @Column(name = "ibutton", length = 100)
     private String ibutton;
 
-    @Column(name = "korisnikId")
-    private Long korisnikId;
+    /** Корисник који је генерисао или обрадио јављање */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "korisnikId")
+    private BaKorisnici korisnik;
 
-    @Column(name = "kreirano", updatable = false)
-    @CreationTimestamp
-    private LocalDateTime kreirano;
+    // ГЕТЕРИ И СЕТЕРИ
 
-    @Column(name = "izmenjeno")
-    @UpdateTimestamp
-    private LocalDateTime izmenjeno;
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Boolean getValid() {
-        return valid;
-    }
-
-    public void setValid(Boolean valid) {
-        this.valid = valid;
-    }
-
-    public Long getObjekatId() {
-        return objekatId;
-    }
-
-    public void setObjekatId(Long objekatId) {
-        this.objekatId = objekatId;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
     public LocalDateTime getDatumVreme() {
@@ -167,12 +138,12 @@ public class CeJavljanja {
         this.kontakt = kontakt;
     }
 
-    public Long getAlarmId() {
-        return alarmId;
+    public AdSistemAlarmi getAlarm() {
+        return alarm;
     }
 
-    public void setAlarmId(Long alarmId) {
-        this.alarmId = alarmId;
+    public void setAlarm(AdSistemAlarmi alarm) {
+        this.alarm = alarm;
     }
 
     public Float getVirtualOdo() {
@@ -207,27 +178,11 @@ public class CeJavljanja {
         this.ibutton = ibutton;
     }
 
-    public Long getKorisnikId() {
-        return korisnikId;
+    public BaKorisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setKorisnikId(Long korisnikId) {
-        this.korisnikId = korisnikId;
-    }
-
-    public LocalDateTime getKreirano() {
-        return kreirano;
-    }
-
-    public void setKreirano(LocalDateTime kreirano) {
-        this.kreirano = kreirano;
-    }
-
-    public LocalDateTime getIzmenjeno() {
-        return izmenjeno;
-    }
-
-    public void setIzmenjeno(LocalDateTime izmenjeno) {
-        this.izmenjeno = izmenjeno;
+    public void setKorisnik(BaKorisnici korisnik) {
+        this.korisnik = korisnik;
     }
 }

@@ -6,92 +6,96 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља везу између зоне и објеката.
+ */
 @Entity
 @Table(name = "ch_zoneObjekti")
-public class ChZoneObjekti {
+public class ChZoneObjekti extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+    /** Веза ка претплатнику */
     @NotNull
-    @Column(name = "zopretplatnikId")
-    private Long zopretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zopretplatnikId", nullable = false)
+    private AbSistemPretplatnici zopretplatnik;
 
-    @Column(name = "zoorganizacijaId")
-    private Long zoorganizacijaId;
+    /** Веза ка организацији */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zoorganizacijaId")
+    private AcOrganizacije zoorganizacija;
 
+    /** Веза ка зони */
     @NotNull
-    @Column(name = "zonaId")
-    private Long zonaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zonaId", nullable = false)
+    private BfZone zona;
 
+    /** Веза ка објекту */
     @NotNull
-    @Column(name = "objekatId")
-    private Long objekatId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objekatId", nullable = false)
+    private BbObjekti objekat;
 
+    /** Да ли је улаз у зону */
     @NotNull
-    @Column(name = "ulaz")
+    @Column(name = "ulaz", nullable = false)
     private Boolean ulaz;
 
+    /** Да ли је излаз из зоне */
     @NotNull
-    @Column(name = "izlaz")
+    @Column(name = "izlaz", nullable = false)
     private Boolean izlaz;
 
+    /** Да ли је асоцијација активна */
     @Column(name = "aktivan")
     private Boolean aktivan;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време последње измене */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
+    /** Да ли је обрисан */
     @Column(name = "izbrisan")
     private Boolean izbrisan;
 
-    // Getters and Setters
+    // Гетери и сетери
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getZopretplatnik() {
+        return zopretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setZopretplatnik(AbSistemPretplatnici zopretplatnik) {
+        this.zopretplatnik = zopretplatnik;
     }
 
-    public Long getZopretplatnikId() {
-        return zopretplatnikId;
+    public AcOrganizacije getZoorganizacija() {
+        return zoorganizacija;
     }
 
-    public void setZopretplatnikId(Long zopretplatnikId) {
-        this.zopretplatnikId = zopretplatnikId;
+    public void setZoorganizacija(AcOrganizacije zoorganizacija) {
+        this.zoorganizacija = zoorganizacija;
     }
 
-    public Long getZoorganizacijaId() {
-        return zoorganizacijaId;
+    public BfZone getZona() {
+        return zona;
     }
 
-    public void setZoorganizacijaId(Long zoorganizacijaId) {
-        this.zoorganizacijaId = zoorganizacijaId;
+    public void setZona(BfZone zona) {
+        this.zona = zona;
     }
 
-    public Long getZonaId() {
-        return zonaId;
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setZonaId(Long zonaId) {
-        this.zonaId = zonaId;
-    }
-
-    public Long getObjekatId() {
-        return objekatId;
-    }
-
-    public void setObjekatId(Long objekatId) {
-        this.objekatId = objekatId;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
     public Boolean getUlaz() {
