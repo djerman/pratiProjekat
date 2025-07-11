@@ -3,72 +3,73 @@ package rs.prati.core.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Ентитет који представља расподелу износа по рачунима (n:n).
+ */
 @Entity
 @Table(name = "dlj_racuniRaspodela")
-public class DljRacuniRaspodela {
+public class DljRacuniRaspodela extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+    /** Веза ка ентитету AbSistemPretplatnici (страни кључ pretplatnikId). */
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
+    /** Веза ка ентитету AcOrganizacije (страни кључ organizacijaId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
+    /** Веза ка ентитету BgPartneri (страни кључ partnerId). */
     @NotNull
-    @Column(name = "partnerId")
-    private Long partnerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "partnerId", nullable = false)
+    private BgPartneri partner;
 
+    /** Веза ка ентитету DjRacuni (страни кључ racunId). */
     @NotNull
-    @Column(name = "racunId")
-    private Long racunId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "racunId", nullable = false)
+    private DjRacuni racun;
 
+    /** Износ расподеле */
     @NotNull
-    @Column(name = "iznos")
+    @Column(name = "iznos", nullable = false)
     private Float iznos;
 
-    public Long getId() {
-        return id;
+    // Гетери и сетери
+
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getOrganizacijaId() {
-        return organizacijaId;
+    public BgPartneri getPartner() {
+        return partner;
     }
 
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
+    public void setPartner(BgPartneri partner) {
+        this.partner = partner;
     }
 
-    public Long getPartnerId() {
-        return partnerId;
+    public DjRacuni getRacun() {
+        return racun;
     }
 
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
-    }
-
-    public Long getRacunId() {
-        return racunId;
-    }
-
-    public void setRacunId(Long racunId) {
-        this.racunId = racunId;
+    public void setRacun(DjRacuni racun) {
+        this.racun = racun;
     }
 
     public Float getIznos() {

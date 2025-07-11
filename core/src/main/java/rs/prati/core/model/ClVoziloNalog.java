@@ -7,103 +7,99 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља налог за вожњу/путовање возила.
+ */
 @Entity
 @Table(name = "cl_voziloNalog")
-public class ClVoziloNalog {
+public class ClVoziloNalog extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /** Претплатник коме припада налог */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    /** Организација у оквиру претплатника */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
+    /** Број налога */
     @Size(max = 45)
-    @Column(name = "brojNaloga")
+    @Column(name = "brojNaloga", length = 45)
     private String brojNaloga;
 
+    /** Возило */
     @NotNull
-    @Column(name = "voziloId")
-    private Long voziloId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voziloId", nullable = false)
+    private CjVozilo vozilo;
 
+    /** Место поласка */
     @Size(max = 45)
-    @Column(name = "odMesta")
+    @Column(name = "odMesta", length = 45)
     private String odMesta;
 
+    /** Место доласка */
     @Size(max = 45)
-    @Column(name = "doMesta")
+    @Column(name = "doMesta", length = 45)
     private String doMesta;
 
+    /** Међу тачке (стајалишта, градови) */
     @Size(max = 45)
-    @Column(name = "medjuTacke")
+    @Column(name = "medjuTacke", length = 45)
     private String medjuTacke;
 
+    /** Очекивани полазак */
     @Column(name = "ocekivaniPolazak")
     private LocalDateTime ocekivaniPolazak;
 
+    /** Очекивани долазак */
     @Column(name = "ocekivaniDolazak")
     private LocalDateTime ocekivaniDolazak;
 
-    @Column(name = "vozacId")
-    private Long vozacId;
+    /** Возач */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vozacId")
+    private CiVozaci vozac;
 
+    /** Коментар или напомена */
     @Size(max = 45)
-    @Column(name = "komentar")
+    @Column(name = "komentar", length = 45)
     private String komentar;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време последње измене */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
+    /** Да ли је запис означен као обрисан */
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    
-    public Long getId() {
-        return id;
+    // Гетери и сетери
+
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Long getPretplatnikId() {
-        return pretplatnikId;
-    }
-
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
     public String getBrojNaloga() {
@@ -114,12 +110,12 @@ public class ClVoziloNalog {
         this.brojNaloga = brojNaloga;
     }
 
-    public Long getVoziloId() {
-        return voziloId;
+    public CjVozilo getVozilo() {
+        return vozilo;
     }
 
-    public void setVoziloId(Long voziloId) {
-        this.voziloId = voziloId;
+    public void setVozilo(CjVozilo vozilo) {
+        this.vozilo = vozilo;
     }
 
     public String getOdMesta() {
@@ -162,12 +158,12 @@ public class ClVoziloNalog {
         this.ocekivaniDolazak = ocekivaniDolazak;
     }
 
-    public Long getVozacId() {
-        return vozacId;
+    public CiVozaci getVozac() {
+        return vozac;
     }
 
-    public void setVozacId(Long vozacId) {
-        this.vozacId = vozacId;
+    public void setVozac(CiVozaci vozac) {
+        this.vozac = vozac;
     }
 
     public String getKomentar() {
@@ -201,5 +197,4 @@ public class ClVoziloNalog {
     public void setIzbrisan(Boolean izbrisan) {
         this.izbrisan = izbrisan;
     }
-
 }

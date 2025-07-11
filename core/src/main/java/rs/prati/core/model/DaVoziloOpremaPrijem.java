@@ -3,74 +3,73 @@ package rs.prati.core.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Ентитет који представља примање опреме у оквиру примопредаје возила.
+ */
 @Entity
 @Table(name = "da_voziloOpremaPrijem")
-public class DaVoziloOpremaPrijem {
+public class DaVoziloOpremaPrijem extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+    /** Претплатник */
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
+    /** Организација */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
+    /** Примопредаја на коју се односи пријем опреме */
     @NotNull
-    @Column(name = "primoPredajaId")
-    private Long primoPredajaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "primoPredajaId", nullable = false)
+    private CkVoziloPrimoPredaja primoPredaja;
 
+    /** Опреама која се пријављује */
     @NotNull
-    @Column(name = "opremaId")
-    private Long opremaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "opremaId", nullable = false)
+    private BhVoziloOprema oprema;
 
+    /** Количина */
     @NotNull
-    @Column(name = "kolicina")
+    @Column(name = "kolicina", nullable = false)
     private Integer kolicina;
 
-    // Getters and Setters
+    // Гетери и сетери
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getOrganizacijaId() {
-        return organizacijaId;
+    public CkVoziloPrimoPredaja getPrimoPredaja() {
+        return primoPredaja;
     }
 
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
+    public void setPrimoPredaja(CkVoziloPrimoPredaja primoPredaja) {
+        this.primoPredaja = primoPredaja;
     }
 
-    public Long getPrimoPredajaId() {
-        return primoPredajaId;
+    public BhVoziloOprema getOprema() {
+        return oprema;
     }
 
-    public void setPrimoPredajaId(Long primoPredajaId) {
-        this.primoPredajaId = primoPredajaId;
-    }
-
-    public Long getOpremaId() {
-        return opremaId;
-    }
-
-    public void setOpremaId(Long opremaId) {
-        this.opremaId = opremaId;
+    public void setOprema(BhVoziloOprema oprema) {
+        this.oprema = oprema;
     }
 
     public Integer getKolicina() {

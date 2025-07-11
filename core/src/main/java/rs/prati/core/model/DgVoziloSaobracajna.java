@@ -8,53 +8,49 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља саобраћајну дозволу возила.
+ */
 @Entity
 @Table(name = "dg_voziloSaobracajna")
-public class DgVoziloSaobracajna {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
-    @NotNull
-    @Column(name = "version")
-    private Integer version;
+public class DgVoziloSaobracajna extends BaseEntity {
 
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
     @NotNull
-    @Column(name = "voziloId")
-    private Long voziloId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voziloId", nullable = false)
+    private CjVozilo vozilo;
 
     @Size(max = 45)
-    @Column(name = "brojSaobracajne")
+    @Column(name = "brojSaobracajne", length = 45)
     private String brojSaobracajne;
 
     @NotNull
-    @Column(name = "datumIzdavanja")
+    @Column(name = "datumIzdavanja", nullable = false)
     private LocalDate datumIzdavanja;
 
     @Size(max = 45)
-    @Column(name = "izdao")
+    @Column(name = "izdao", length = 45)
     private String izdao;
 
     @Size(max = 45)
-    @Column(name = "homologacija")
+    @Column(name = "homologacija", length = 45)
     private String homologacija;
 
     @Size(max = 45)
-    @Column(name = "sasija")
+    @Column(name = "sasija", length = 45)
     private String sasija;
 
     @Size(max = 45)
-    @Column(name = "brojMotora")
+    @Column(name = "brojMotora", length = 45)
     private String brojMotora;
 
     @Column(name = "snagaMotora")
@@ -70,90 +66,75 @@ public class DgVoziloSaobracajna {
     private Integer zapreminaRezervoaraAdBlue;
 
     @Size(max = 45)
-    @Column(name = "boja")
+    @Column(name = "boja", length = 45)
     private String boja;
 
     @Size(max = 45)
-    @Column(name = "masa")
+    @Column(name = "masa", length = 45)
     private String masa;
 
     @Size(max = 45)
-    @Column(name = "ukupnaMasa")
+    @Column(name = "ukupnaMasa", length = 45)
     private String ukupnaMasa;
 
     @Size(max = 45)
-    @Column(name = "kategorija")
+    @Column(name = "kategorija", length = 45)
     private String kategorija;
 
     @Size(max = 45)
-    @Column(name = "nosivost")
+    @Column(name = "nosivost", length = 45)
     private String nosivost;
 
     @Column(name = "mestaSedenja")
     private Integer mestaSedenja;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "saobracajna2Id")
-    private Long saobracajna2Id;
+    private DhVoziloSaobracajna2 saobracajna2;
 
-    @Column(name = "kreirano", updatable = false)
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    // Гетери и сетери могу се додати по потреби
+    // Гетери и сетери
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) { 
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) { 
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public CjVozilo getVozilo() {
+        return vozilo;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) { 
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) { 
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getVoziloId() {
-        return voziloId;
-    }
-
-    public void setVoziloId(Long voziloId) { 
-        this.voziloId = voziloId;
+    public void setVozilo(CjVozilo vozilo) {
+        this.vozilo = vozilo;
     }
 
     public String getBrojSaobracajne() {
         return brojSaobracajne;
     }
 
-    public void setBrojSaobracajne(String brojSaobracajne) { 
+    public void setBrojSaobracajne(String brojSaobracajne) {
         this.brojSaobracajne = brojSaobracajne;
     }
 
@@ -161,7 +142,7 @@ public class DgVoziloSaobracajna {
         return datumIzdavanja;
     }
 
-    public void setDatumIzdavanja(LocalDate datumIzdavanja) { 
+    public void setDatumIzdavanja(LocalDate datumIzdavanja) {
         this.datumIzdavanja = datumIzdavanja;
     }
 
@@ -169,7 +150,7 @@ public class DgVoziloSaobracajna {
         return izdao;
     }
 
-    public void setIzdao(String izdao) { 
+    public void setIzdao(String izdao) {
         this.izdao = izdao;
     }
 
@@ -177,7 +158,7 @@ public class DgVoziloSaobracajna {
         return homologacija;
     }
 
-    public void setHomologacija(String homologacija) { 
+    public void setHomologacija(String homologacija) {
         this.homologacija = homologacija;
     }
 
@@ -185,7 +166,7 @@ public class DgVoziloSaobracajna {
         return sasija;
     }
 
-    public void setSasija(String sasija) { 
+    public void setSasija(String sasija) {
         this.sasija = sasija;
     }
 
@@ -193,7 +174,7 @@ public class DgVoziloSaobracajna {
         return brojMotora;
     }
 
-    public void setBrojMotora(String brojMotora) { 
+    public void setBrojMotora(String brojMotora) {
         this.brojMotora = brojMotora;
     }
 
@@ -201,7 +182,7 @@ public class DgVoziloSaobracajna {
         return snagaMotora;
     }
 
-    public void setSnagaMotora(Double snagaMotora) { 
+    public void setSnagaMotora(Double snagaMotora) {
         this.snagaMotora = snagaMotora;
     }
 
@@ -209,7 +190,7 @@ public class DgVoziloSaobracajna {
         return zapreminaMotora;
     }
 
-    public void setZapreminaMotora(Integer zapreminaMotora) { 
+    public void setZapreminaMotora(Integer zapreminaMotora) {
         this.zapreminaMotora = zapreminaMotora;
     }
 
@@ -217,7 +198,7 @@ public class DgVoziloSaobracajna {
         return zapreminaRezervoara;
     }
 
-    public void setZapreminaRezervoara(Integer zapreminaRezervoara) { 
+    public void setZapreminaRezervoara(Integer zapreminaRezervoara) {
         this.zapreminaRezervoara = zapreminaRezervoara;
     }
 
@@ -225,7 +206,7 @@ public class DgVoziloSaobracajna {
         return zapreminaRezervoaraAdBlue;
     }
 
-    public void setZapreminaRezervoaraAdBlue(Integer zapreminaRezervoaraAdBlue) { 
+    public void setZapreminaRezervoaraAdBlue(Integer zapreminaRezervoaraAdBlue) {
         this.zapreminaRezervoaraAdBlue = zapreminaRezervoaraAdBlue;
     }
 
@@ -233,7 +214,7 @@ public class DgVoziloSaobracajna {
         return boja;
     }
 
-    public void setBoja(String boja) { 
+    public void setBoja(String boja) {
         this.boja = boja;
     }
 
@@ -241,7 +222,7 @@ public class DgVoziloSaobracajna {
         return masa;
     }
 
-    public void setMasa(String masa) { 
+    public void setMasa(String masa) {
         this.masa = masa;
     }
 
@@ -249,7 +230,7 @@ public class DgVoziloSaobracajna {
         return ukupnaMasa;
     }
 
-    public void setUkupnaMasa(String ukupnaMasa) { 
+    public void setUkupnaMasa(String ukupnaMasa) {
         this.ukupnaMasa = ukupnaMasa;
     }
 
@@ -257,7 +238,7 @@ public class DgVoziloSaobracajna {
         return kategorija;
     }
 
-    public void setKategorija(String kategorija) { 
+    public void setKategorija(String kategorija) {
         this.kategorija = kategorija;
     }
 
@@ -265,7 +246,7 @@ public class DgVoziloSaobracajna {
         return nosivost;
     }
 
-    public void setNosivost(String nosivost) { 
+    public void setNosivost(String nosivost) {
         this.nosivost = nosivost;
     }
 
@@ -273,23 +254,23 @@ public class DgVoziloSaobracajna {
         return mestaSedenja;
     }
 
-    public void setMestaSedenja(Integer mestaSedenja) { 
+    public void setMestaSedenja(Integer mestaSedenja) {
         this.mestaSedenja = mestaSedenja;
     }
 
-    public Long getSaobracajna2Id() {
-        return saobracajna2Id;
+    public DhVoziloSaobracajna2 getSaobracajna2() {
+        return saobracajna2;
     }
 
-    public void setSaobracajna2Id(Long saobracajna2Id) { 
-        this.saobracajna2Id = saobracajna2Id;
+    public void setSaobracajna2(DhVoziloSaobracajna2 saobracajna2) {
+        this.saobracajna2 = saobracajna2;
     }
 
     public LocalDateTime getKreirano() {
         return kreirano;
     }
 
-    public void setKreirano(LocalDateTime kreirano) { 
+    public void setKreirano(LocalDateTime kreirano) {
         this.kreirano = kreirano;
     }
 
@@ -297,7 +278,7 @@ public class DgVoziloSaobracajna {
         return izmenjeno;
     }
 
-    public void setIzmenjeno(LocalDateTime izmenjeno) { 
+    public void setIzmenjeno(LocalDateTime izmenjeno) {
         this.izmenjeno = izmenjeno;
     }
 
@@ -305,7 +286,7 @@ public class DgVoziloSaobracajna {
         return izbrisan;
     }
 
-    public void setIzbrisan(Boolean izbrisan) { 
+    public void setIzbrisan(Boolean izbrisan) {
         this.izbrisan = izbrisan;
     }
 }

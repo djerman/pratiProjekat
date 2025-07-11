@@ -8,96 +8,88 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља личну карту возача.
+ */
 @Entity
 @Table(name = "de_vozaciLicna")
-public class DeVozaciLicna {
+public class DeVozaciLicna extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /** Претплатник коме припада лицна карта */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
+    /** Организација (ако постоји) */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
+
+    /** Корисник (возач) */
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "korisnikId", nullable = false)
+    private BaKorisnici korisnik;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
-    @NotNull
-    @Column(name = "korisnikId")
-    private Long korisnikId;
-
+    /** Број личне карте */
     @NotNull
     @Size(max = 45)
-    @Column(name = "broj")
+    @Column(name = "broj", length = 45, nullable = false)
     private String broj;
 
+    /** Издавалац */
     @Size(max = 45)
-    @Column(name = "izdao")
+    @Column(name = "izdao", length = 45)
     private String izdao;
 
+    /** Датум издавања */
     @Column(name = "izdato")
     private LocalDate izdato;
 
+    /** Датум важења */
     @Column(name = "vaziDo")
     private LocalDate vaziDo;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време измене */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
+    /** Да ли је запис означен као обрисан */
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    public Long getId() {
-        return id;
+    // ГЕТЕРИ И СЕТЕРИ
+
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public BaKorisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getKorisnikId() {
-        return korisnikId;
-    }
-
-    public void setKorisnikId(Long korisnikId) {
-        this.korisnikId = korisnikId;
+    public void setKorisnik(BaKorisnici korisnik) {
+        this.korisnik = korisnik;
     }
 
     public String getBroj() {

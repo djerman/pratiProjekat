@@ -8,97 +8,90 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља рачун.
+ */
 @Entity
 @Table(name = "dj_racuni")
-public class DjRacuni {
+public class DjRacuni extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /** Веза ка ентитету AbSistemPretplatnici (страни кључ pretplatnikId). */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
+    /** Веза ка ентитету AcOrganizacije (страни кључ organizacijaId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
+
+    /** Веза ка ентитету AdPartneri (страни кључ partnerId). */
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "partnerId", nullable = false)
+    private BgPartneri partner;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
+    /** Датум */
     @NotNull
-    @Column(name = "partnerId")
-    private Long partnerId;
-
-    @NotNull
-    @Column(name = "datum")
+    @Column(name = "datum", nullable = false)
     private LocalDate datum;
 
+    /** Број рачуна */
     @Size(max = 45)
-    @Column(name = "brojRacuna")
+    @Column(name = "brojRacuna", length = 45)
     private String brojRacuna;
 
+    /** Опис */
     @Size(max = 45)
-    @Column(name = "opis")
+    @Column(name = "opis", length = 45)
     private String opis;
 
+    /** Веза ка ентитету BaKorisnici (страни кључ korisnikId). */
     @NotNull
-    @Column(name = "korisnikId")
-    private Long korisnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "korisnikId", nullable = false)
+    private BaKorisnici korisnik;
 
+    /** Ознака обрисаности */
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време измене */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    public Long getId() {
-        return id;
+    // Гетери и сетери
+
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public BgPartneri getPartner() {
+        return partner;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getPartnerId() {
-        return partnerId;
-    }
-
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
+    public void setPartner(BgPartneri partner) {
+        this.partner = partner;
     }
 
     public LocalDate getDatum() {
@@ -125,12 +118,12 @@ public class DjRacuni {
         this.opis = opis;
     }
 
-    public Long getKorisnikId() {
-        return korisnikId;
+    public BaKorisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setKorisnikId(Long korisnikId) {
-        this.korisnikId = korisnikId;
+    public void setKorisnik(BaKorisnici korisnik) {
+        this.korisnik = korisnik;
     }
 
     public Boolean getIzbrisan() {

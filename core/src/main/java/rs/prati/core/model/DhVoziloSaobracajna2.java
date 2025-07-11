@@ -7,135 +7,115 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља додатне податке саобраћајне дозволе возила.
+ */
 @Entity
 @Table(name = "dh_voziloSaobracajna2")
-public class DhVoziloSaobracajna2 {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
-    @NotNull
-    @Column(name = "version")
-    private Integer version;
+public class DhVoziloSaobracajna2 extends BaseEntity {
 
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
     @NotNull
-    @Column(name = "saobracajnaId")
-    private Long saobracajnaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "saobracajnaId", nullable = false)
+    private DgVoziloSaobracajna saobracajna;
 
     @Size(max = 45)
-    @Column(name = "vlasnik")
+    @Column(name = "vlasnik", length = 45)
     private String vlasnik;
 
     @Size(max = 45)
-    @Column(name = "adresaVlasnika")
+    @Column(name = "adresaVlasnika", length = 45)
     private String adresaVlasnika;
 
     @Size(max = 45)
-    @Column(name = "jmbgVlasnika")
+    @Column(name = "jmbgVlasnika", length = 45)
     private String jmbgVlasnika;
 
     @Size(max = 45)
-    @Column(name = "korisnik")
+    @Column(name = "korisnik", length = 45)
     private String korisnik;
 
     @Size(max = 45)
-    @Column(name = "adresaKorisnika")
+    @Column(name = "adresaKorisnika", length = 45)
     private String adresaKorisnika;
 
     @Size(max = 45)
-    @Column(name = "dimenzijeGuma")
+    @Column(name = "dimenzijeGuma", length = 45)
     private String dimenzijeGuma;
 
     @Size(max = 45)
-    @Column(name = "pritisakGume")
+    @Column(name = "pritisakGume", length = 45)
     private String pritisakGume;
 
     @Size(max = 45)
-    @Column(name = "dimenzijeTovara")
+    @Column(name = "dimenzijeTovara", length = 45)
     private String dimenzijeTovara;
 
     @Size(max = 45)
-    @Column(name = "odnosSnagaMasa")
+    @Column(name = "odnosSnagaMasa", length = 45)
     private String odnosSnagaMasa;
 
     @Size(max = 45)
-    @Column(name = "mestaStajanje")
+    @Column(name = "mestaStajanje", length = 45)
     private String mestaStajanje;
 
     @Size(max = 45)
-    @Column(name = "kupljenoDoniranoOd")
+    @Column(name = "kupljenoDoniranoOd", length = 45)
     private String kupljenoDoniranoOd;
 
     @Size(max = 45)
-    @Column(name = "nabavljenoPoRacunuSert")
+    @Column(name = "nabavljenoPoRacunuSert", length = 45)
     private String nabavljenoPoRacunuSert;
 
     @Size(max = 45)
-    @Column(name = "dobavljacDonator")
+    @Column(name = "dobavljacDonator", length = 45)
     private String dobavljacDonator;
 
-    @Column(name = "kreirano", updatable = false)
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    // Getters and setters to be added next
+    // Гетери и сетери
 
-    public Long getId() {
-        return id;
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public DgVoziloSaobracajna getSaobracajna() {
+        return saobracajna;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getSaobracajnaId() {
-        return saobracajnaId;
-    }
-
-    public void setSaobracajnaId(Long saobracajnaId) {
-        this.saobracajnaId = saobracajnaId;
+    public void setSaobracajna(DgVoziloSaobracajna saobracajna) {
+        this.saobracajna = saobracajna;
     }
 
     public String getVlasnik() {

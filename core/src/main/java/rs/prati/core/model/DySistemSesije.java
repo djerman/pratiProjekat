@@ -5,81 +5,69 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+/**
+ * Ентитет за евиденцију системских сесија корисника (DY системске сесије).
+ */
 @Entity
 @Table(name = "dy_sistemSesije")
-public class DySistemSesije {
+public class DySistemSesije extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    /** Веза ка ентитету AbSistemPretplatnici (страни кључ pretplatnikId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId")
+    private AbSistemPretplatnici pretplatnik;
 
-    @Version
-    @NotNull
-    @Column(name = "version")
-    private Integer version;
+    /** Веза ка ентитету AcOrganizacije (страни кључ organizacijaId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    /** Веза ка ентитету BaKorisnici (страни кључ korisnikId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "korisnikId")
+    private BaKorisnici korisnik;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
-    @Column(name = "korisnikId")
-    private Long korisnikId;
-
+    /** Датум и време почетка сесије. */
     @Column(name = "datumPocetak")
     private LocalDateTime datumPocetak;
 
+    /** Датум и време краја сесије. */
     @Column(name = "datumKraj")
     private LocalDateTime datumKraj;
 
+    /** IP адреса са које је покренута сесија. */
     @Size(max = 50)
-    @Column(name = "ipAdresa")
+    @Column(name = "ipAdresa", length = 50)
     private String ipAdresa;
 
+    /** Означен као обрисан. */
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    public Long getId() {
-        return id;
+    // ГЕТЕРИ И СЕТЕРИ (са JavaDoc коментарима)
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public BaKorisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getKorisnikId() {
-        return korisnikId;
-    }
-
-    public void setKorisnikId(Long korisnikId) {
-        this.korisnikId = korisnikId;
+    public void setKorisnik(BaKorisnici korisnik) {
+        this.korisnik = korisnik;
     }
 
     public LocalDateTime getDatumPocetak() {

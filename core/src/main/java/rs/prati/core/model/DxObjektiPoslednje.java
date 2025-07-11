@@ -7,70 +7,57 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља податке о последњим сервисима, регистрацији и километражи објекта.
+ */
 @Entity
 @Table(name = "dx_objektiPoslednje")
-@IdClass(DxObjektiPoslednjeId.class)
-public class DxObjektiPoslednje {
+public class DxObjektiPoslednje extends BaseEntity {
 
-    @Id
-    @Column(name = "id")
-    private Long id;
-
-    @Id
+    /** Асоцијација на BbObjekti (објекат). */
     @NotNull
-    @Column(name = "objekatId")
-    private Long objekatId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objekatId", nullable = false, referencedColumnName = "id")
+    private BbObjekti objekat;
 
-    @Version
-    @NotNull
-    @Column(name = "version")
-    private Integer version;
-
+    /** Датум последњег малог сервиса. */
     @Column(name = "maliServis")
     private LocalDate maliServis;
 
+    /** Километража на малом сервису. */
     @Column(name = "maliKm")
     private Integer maliKm;
 
+    /** Датум последњег великог сервиса. */
     @Column(name = "velikiServis")
     private LocalDate velikiServis;
 
+    /** Километража на великом сервису. */
     @Column(name = "velikiKm")
     private Integer velikiKm;
 
+    /** Датум последње регистрације. */
     @Column(name = "registracija")
     private LocalDate registracija;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања. */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време измене. */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    public Long getId() {
-        return id;
+    // ГЕТЕРИ И СЕТЕРИ
+
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getObjekatId() {
-        return objekatId;
-    }
-
-    public void setObjekatId(Long objekatId) {
-        this.objekatId = objekatId;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
     public LocalDate getMaliServis() {

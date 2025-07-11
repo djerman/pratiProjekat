@@ -7,85 +7,76 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља пројекат.
+ */
 @Entity
 @Table(name = "dk_projekti")
-public class DkProjekti {
+public class DkProjekti extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /** Веза ка ентитету AbSistemPretplatnici (страни кључ pretplatnikId). */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    /** Веза ка ентитету AcOrganizacije (страни кључ organizacijaId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
-
+    /** Назив пројекта */
     @NotNull
     @Size(max = 45)
-    @Column(name = "naziv")
+    @Column(name = "naziv", length = 45, nullable = false)
     private String naziv;
 
+    /** Шифра пројекта */
     @Size(max = 45)
-    @Column(name = "sifra")
+    @Column(name = "sifra", length = 45)
     private String sifra;
 
-    @Column(name = "partnerId")
-    private Long partnerId;
+    /** Веза ка ентитету BgPartneri (страни кључ partnerId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "partnerId")
+    private BgPartneri partner;
 
+    /** Опис */
     @Size(max = 45)
-    @Column(name = "opis")
+    @Column(name = "opis", length = 45)
     private String opis;
 
+    /** Ознака обрисаности */
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време измене */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    public Long getId() {
-        return id;
+    // Гетери и сетери
+
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Long getPretplatnikId() {
-        return pretplatnikId;
-    }
-
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
     public String getNaziv() {
@@ -104,12 +95,12 @@ public class DkProjekti {
         this.sifra = sifra;
     }
 
-    public Long getPartnerId() {
-        return partnerId;
+    public BgPartneri getPartner() {
+        return partner;
     }
 
-    public void setPartnerId(Long partnerId) {
-        this.partnerId = partnerId;
+    public void setPartner(BgPartneri partner) {
+        this.partner = partner;
     }
 
     public String getOpis() {

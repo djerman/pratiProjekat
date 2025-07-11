@@ -8,94 +8,76 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет који представља пасош возача.
+ */
 @Entity
 @Table(name = "df_vozaciPasosi")
-public class DfVozaciPasosi {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
-    @NotNull
-    @Column(name = "version")
-    private Integer version;
+public class DfVozaciPasosi extends BaseEntity {
 
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
 
     @NotNull
-    @Column(name = "korisnikId")
-    private Long korisnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "korisnikId", nullable = false)
+    private BaKorisnici korisnik;
 
     @NotNull
     @Size(max = 45)
-    @Column(name = "brojPasosa")
+    @Column(name = "brojPasosa", length = 45, nullable = false)
     private String brojPasosa;
 
     @NotNull
-    @Column(name = "izdato")
+    @Column(name = "izdato", nullable = false)
     private LocalDate izdato;
 
     @NotNull
-    @Column(name = "vaziDo")
+    @Column(name = "vaziDo", nullable = false)
     private LocalDate vaziDo;
 
-    @Column(name = "kreirano", updatable = false)
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
     @NotNull
-    @Column(name = "izbrisan")
+    @Column(name = "izbrisan", nullable = false)
     private Boolean izbrisan;
 
-    public Long getId() {
-        return id;
+    // ГЕТЕРИ И СЕТЕРИ
+
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
     }
 
-    public Integer getVersion() {
-        return version;
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
     }
 
-    public Long getPretplatnikId() {
-        return pretplatnikId;
+    public BaKorisnici getKorisnik() {
+        return korisnik;
     }
 
-    public void setPretplatnikId(Long pretplatnikId) {
-        this.pretplatnikId = pretplatnikId;
-    }
-
-    public Long getOrganizacijaId() {
-        return organizacijaId;
-    }
-
-    public void setOrganizacijaId(Long organizacijaId) {
-        this.organizacijaId = organizacijaId;
-    }
-
-    public Long getKorisnikId() {
-        return korisnikId;
-    }
-
-    public void setKorisnikId(Long korisnikId) {
-        this.korisnikId = korisnikId;
+    public void setKorisnik(BaKorisnici korisnik) {
+        this.korisnik = korisnik;
     }
 
     public String getBrojPasosa() {

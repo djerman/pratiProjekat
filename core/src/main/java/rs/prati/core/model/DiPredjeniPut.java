@@ -4,57 +4,57 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+/**
+ * Ентитет који представља укупно пређени пут и потрошњу за објекат.
+ */
 @Entity
 @Table(name = "di_predjeniPut")
-public class DiPredjeniPut {
+public class DiPredjeniPut extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
+    /** Веза ка објекту (страни кључ objekatId). */
     @NotNull
-    @Column(name = "objekatId")
-    private Long objekatId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "objekatId", nullable = false)
+    private BbObjekti objekat;
 
+    /** Датум */
     @NotNull
-    @Column(name = "datum")
+    @Column(name = "datum", nullable = false)
     private LocalDate datum;
 
+    /** Виртуелни километража */
     @NotNull
-    @Column(name = "virtualOdo")
+    @Column(name = "virtualOdo", nullable = false)
     private Float virtualOdo;
 
+    /** Укупно пређених километара */
     @NotNull
-    @Column(name = "ukupnoKm")
+    @Column(name = "ukupnoKm", nullable = false)
     private Integer ukupnoKm;
 
+    /** Укупно потрошеног горива */
     @NotNull
-    @Column(name = "ukupnoGorivo")
+    @Column(name = "ukupnoGorivo", nullable = false)
     private Float ukupnoGorivo;
 
+    /** Просечна потрошња (GPS) */
     @NotNull
-    @Column(name = "prosPotGps")
+    @Column(name = "prosPotGps", nullable = false)
     private Float prosPotGps;
 
+    /** Просечна потрошња */
     @NotNull
-    @Column(name = "prosPot")
+    @Column(name = "prosPot", nullable = false)
     private Float prosPot;
 
-    public Long getId() {
-        return id;
+    // Гетери и сетери
+
+    public BbObjekti getObjekat() {
+        return objekat;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getObjekatId() {
-        return objekatId;
-    }
-
-    public void setObjekatId(Long objekatId) {
-        this.objekatId = objekatId;
+    public void setObjekat(BbObjekti objekat) {
+        this.objekat = objekat;
     }
 
     public LocalDate getDatum() {

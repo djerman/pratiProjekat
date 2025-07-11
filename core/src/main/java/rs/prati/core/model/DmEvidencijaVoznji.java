@@ -7,213 +7,230 @@ import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+/**
+ * Ентитет за евиденцију вожњи (DM evidencija vožnji).
+ */
 @Entity
 @Table(name = "dm_evidencijaVoznji")
-public class DmEvidencijaVoznji {
+public class DmEvidencijaVoznji extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Version
+    /** Веза ка ентитету AbSistemPretplatnici (страни кључ pretplatnikId). */
     @NotNull
-    @Column(name = "version")
-    private Integer version;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pretplatnikId", nullable = false)
+    private AbSistemPretplatnici pretplatnik;
 
+    /** Веза ка ентитету AcOrganizacije (страни кључ organizacijaId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organizacijaId")
+    private AcOrganizacije organizacija;
+
+    /** Веза ка ентитету DnVoziloNalog (страни кључ voziloNalog). */
     @NotNull
-    @Column(name = "pretplatnikId")
-    private Long pretplatnikId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voziloNalog", nullable = false)
+    private ClVoziloNalog voziloNalog;
 
-    @Column(name = "organizacijaId")
-    private Long organizacijaId;
+    /** Веза ка ентитету CjVozilo (страни кључ voziloId). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "voziloId")
+    private CjVozilo vozilo;
 
+    /** Веза ка ентитету DfVozaci (страни кључ vozac). */
     @NotNull
-    @Column(name = "voziloNalog")
-    private Long voziloNalog;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vozac", nullable = false)
+    private CiVozaci vozac;
 
-    @Column(name = "voziloId")
-    private Long voziloId;
-
-    @NotNull
-    @Column(name = "vozac")
-    private Long vozac;
-
+    /** Регистрација возила. */
     @NotNull
     @Size(max = 45)
-    @Column(name = "registracijaVozila")
+    @Column(name = "registracijaVozila", length = 45, nullable = false)
     private String registracijaVozila;
 
+    /** Релација. */
     @Size(max = 45)
-    @Column(name = "relacija")
+    @Column(name = "relacija", length = 45)
     private String relacija;
 
+    /** Датум и време поласка. */
     @Column(name = "datumVremePolaska")
     private LocalDateTime datumVremePolaska;
 
+    /** Датум и време доласка. */
     @Column(name = "datumVremeDolaska")
     private LocalDateTime datumVremeDolaska;
 
+    /** Почетна километража. */
     @Column(name = "pocetnaKm")
     private Float pocetnaKm;
 
+    /** Завршна километража. */
     @Column(name = "zavrsnaKm")
     private Float zavrsnaKm;
 
+    /** Разлика у километражи. */
     @Column(name = "razlikaKm")
     private Float razlikaKm;
 
+    /** Потрошња. */
     @Column(name = "potrosnja")
     private Float potrosnja;
 
+    /** Цена горива. */
     @Column(name = "gorivoCena")
     private Float gorivoCena;
 
+    /** Цена превоза. */
     @Column(name = "prevozCena")
     private Float prevozCena;
 
+    /** Путни трошкови. */
     @Column(name = "putniTroskovi")
     private Float putniTroskovi;
 
+    /** Број путног налога. */
     @Size(max = 45)
-    @Column(name = "brojPutnogNaloga")
+    @Column(name = "brojPutnogNaloga", length = 45)
     private String brojPutnogNaloga;
 
+    /** Број дана. */
     @Column(name = "dana")
     private Integer dana;
 
+    /** Број сати. */
     @Column(name = "sati")
     private Integer sati;
 
+    /** Трошкови горива. */
     @Column(name = "troskoviGoriva")
     private Float troskoviGoriva;
 
+    /** Укупно за превоз. */
     @Column(name = "prevozUkupno")
     private Float prevozUkupno;
 
+    /** Превоз + путни трошак. */
     @Column(name = "prevozPutniTrosak")
     private Float prevozPutniTrosak;
 
+    /** Извор податка. */
     @Size(max = 45)
-    @Column(name = "preuzetoIz")
+    @Column(name = "preuzetoIz", length = 45)
     private String preuzetoIz;
 
+    /** Врста робе. */
     @Size(max = 45)
-    @Column(name = "vrstaRobe")
+    @Column(name = "vrstaRobe", length = 45)
     private String vrstaRobe;
 
+    /** Kоличина. */
     @Column(name = "kolicina")
     private Integer kolicina;
 
+    /** Магцин. */
     @Size(max = 45)
-    @Column(name = "magacin")
+    @Column(name = "magacin", length = 45)
     private String magacin;
 
+    /** Отпремница. */
     @Size(max = 45)
-    @Column(name = "otpremnica")
+    @Column(name = "otpremnica", length = 45)
     private String otpremnica;
 
+    /** Шифра. */
     @Size(max = 45)
-    @Column(name = "sifra")
+    @Column(name = "sifra", length = 45)
     private String sifra;
 
+    /** Шифра програма. */
     @Size(max = 45)
-    @Column(name = "sifraPrograma")
+    @Column(name = "sifraPrograma", length = 45)
     private String sifraPrograma;
 
+    /** Програм. */
     @Size(max = 45)
-    @Column(name = "program")
+    @Column(name = "program", length = 45)
     private String program;
 
+    /** Утрошено литара. */
     @Column(name = "utrosenoLitara")
     private Float utrosenoLitara;
 
+    /** Да ли је запис закључан. */
     @NotNull
-    @Column(name = "zakljucan")
+    @Column(name = "zakljucan", nullable = false)
     private Boolean zakljucan;
 
-    @Column(name = "uradio")
-    private Long uradio;
+    /** Веза ка ентитету BaKorisnici (страни кључ uradio). */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uradio")
+    private BaKorisnici uradio;
 
-    @Column(name = "kreirano", updatable = false)
+    /** Датум и време креирања. */
     @CreationTimestamp
+    @Column(name = "kreirano", updatable = false)
     private LocalDateTime kreirano;
 
-    @Column(name = "izmenjeno")
+    /** Датум и време измене. */
     @UpdateTimestamp
+    @Column(name = "izmenjeno")
     private LocalDateTime izmenjeno;
 
-    // Getteri i setteri по договореном формату иду накнадно
+    // ГЕТЕРИ И СЕТЕРИ (сви са JavaDoc коментарима)
+    public AbSistemPretplatnici getPretplatnik() {
+        return pretplatnik;
+    }
+
+    public void setPretplatnik(AbSistemPretplatnici pretplatnik) {
+        this.pretplatnik = pretplatnik;
+    }
+
+    public AcOrganizacije getOrganizacija() {
+        return organizacija;
+    }
+
+    public void setOrganizacija(AcOrganizacije organizacija) {
+        this.organizacija = organizacija;
+    }
+
+    public ClVoziloNalog getVoziloNalog() {
+        return voziloNalog;
+    }
+
+    public void setVoziloNalog(ClVoziloNalog voziloNalog) {
+        this.voziloNalog = voziloNalog;
+    }
+
+    public CjVozilo getVozilo() {
+        return vozilo;
+    }
+
+    public void setVozilo(CjVozilo vozilo) {
+        this.vozilo = vozilo;
+    }
+
+    public CiVozaci getVozac() {
+        return vozac;
+    }
+
+    public void setVozac(CiVozaci vozac) {
+        this.vozac = vozac;
+    }
+
+    public String getRegistracijaVozila() {
+        return registracijaVozila;
+    }
+
+    public void setRegistracijaVozila(String registracijaVozila) {
+        this.registracijaVozila = registracijaVozila;
+    }
 
     public String getRelacija() {
         return relacija;
     }
 
-    public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
-
-	public Long getPretplatnikId() {
-		return pretplatnikId;
-	}
-
-	public void setPretplatnikId(Long pretplatnikId) {
-		this.pretplatnikId = pretplatnikId;
-	}
-
-	public Long getOrganizacijaId() {
-		return organizacijaId;
-	}
-
-	public void setOrganizacijaId(Long organizacijaId) {
-		this.organizacijaId = organizacijaId;
-	}
-
-	public Long getVoziloNalog() {
-		return voziloNalog;
-	}
-
-	public void setVoziloNalog(Long voziloNalog) {
-		this.voziloNalog = voziloNalog;
-	}
-
-	public Long getVoziloId() {
-		return voziloId;
-	}
-
-	public void setVoziloId(Long voziloId) {
-		this.voziloId = voziloId;
-	}
-
-	public Long getVozac() {
-		return vozac;
-	}
-
-	public void setVozac(Long vozac) {
-		this.vozac = vozac;
-	}
-
-	public String getRegistracijaVozila() {
-		return registracijaVozila;
-	}
-
-	public void setRegistracijaVozila(String registracijaVozila) {
-		this.registracijaVozila = registracijaVozila;
-	}
-
-	public void setRelacija(String relacija) {
+    public void setRelacija(String relacija) {
         this.relacija = relacija;
     }
 
@@ -417,11 +434,11 @@ public class DmEvidencijaVoznji {
         this.zakljucan = zakljucan;
     }
 
-    public Long getUradio() {
+    public BaKorisnici getUradio() {
         return uradio;
     }
 
-    public void setUradio(Long uradio) {
+    public void setUradio(BaKorisnici uradio) {
         this.uradio = uradio;
     }
 
@@ -440,5 +457,4 @@ public class DmEvidencijaVoznji {
     public void setIzmenjeno(LocalDateTime izmenjeno) {
         this.izmenjeno = izmenjeno;
     }
-
 }
